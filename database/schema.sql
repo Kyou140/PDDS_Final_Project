@@ -1,17 +1,17 @@
--- 01. County & City Info (Dimension)
+-- 01. County & City Info
 CREATE TABLE CityInfo (
     city_code VARCHAR(10) PRIMARY KEY,
     city_name VARCHAR(100),
     population INT,
-    district VARCHAR(100),
-    special_municipality VARCHAR(10)
+    region VARCHAR(100),
+    special_municipality BOOLEAN
 );
 
 -- 02. Happiness Index
 CREATE TABLE HappinessIndex (
     city_code VARCHAR(10),
     year INT,
-    special_municipality VARCHAR(10),
+    special_municipality BOOLEAN,
     happiness_ranking INT,
     happiness_score DECIMAL(10,2),
 
@@ -43,7 +43,7 @@ CREATE TABLE NationSuicideRate (
 -- 05. Mental Health Service Facilities
 CREATE TABLE ServiceFacility (
     city_code VARCHAR(10),
-    service_facility VARCHAR(255),
+    service_facility INT,
 
     PRIMARY KEY (city_code, service_facility),
     FOREIGN KEY (city_code) REFERENCES CityInfo(city_code)

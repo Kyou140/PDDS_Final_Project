@@ -1,0 +1,23 @@
+city_name,city_code,population,region,special_municipality
+Taipei City,A,"2,490,000",Northern,Special Municipality
+New Taipei City,F,"3,970,000",Northern,Special Municipality
+Taoyuan City,H,"2,270,000",Northern,Special Municipality
+Taichung City,B,"2,810,000",Central,Special Municipality
+Tainan City,D,"1,886,000",Southern,Special Municipality
+Kaohsiung City,E,"2,770,000",Southern,Special Municipality
+Keelung City,C,"370,000",Northern,Non-Special Municipality
+Hsinchu City,O,"460,000",Northern,Non-Special Municipality
+Hsinchu County,J,"590,000",Northern,Non-Special Municipality
+Miaoli County,K,"540,000",Central,Non-Special Municipality
+Changhua County,N,"1,260,000",Central,Non-Special Municipality
+Nantou County,M,"480,000",Central,Non-Special Municipality
+Yunlin County,P,"660,000",Central,Non-Special Municipality
+Chiayi City,I,"264,000",Southern,Non-Special Municipality
+Chiayi County,Q,"490,000",Southern,Non-Special Municipality
+Pingtung County,T,"800,000",Southern,Non-Special Municipality
+Yilan County,G,"450,000",Eastern,Non-Special Municipality
+Hualien County,U,"330,000",Eastern,Non-Special Municipality
+Taitung County,V,"220,000",Eastern,Non-Special Municipality
+Penghu County,X,"100,000",Outlying Islands,Non-Special Municipality
+Kinmen County,W,"140,000",Outlying Islands,Non-Special Municipality
+Lienchiang County,Z,"13,000",Outlying Islands,Non-Special Municipality
