@@ -1,9 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>PDDS Final Project</title>
+
+    <!-- Plotly -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
+
 <body>
+
     <h1>Welcome to PDDS Project</h1>
+
+    <!-- City Dropdown -->
+    <label for="citySelect"><strong>Select City:</strong></label>
+    <select id="citySelect" onchange="loadChart(this.value)">
+        <option value="" disabled selected>Loading...</option>
+    </select>
+
+    <hr>
+
+    <!-- Chart Area -->
+    <div id="chart" style="width: 900px; height: 500px;"></div>
+
+    <!-- Load JS -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>
