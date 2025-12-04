@@ -5,17 +5,16 @@ from database_service import get_db_connection, _read_sql_file
 DATABASE_PATH = 'database/database.db' 
 SQL_DIR = './graph/sql'
 
-def fetch_gender_smr_data(city_code):
+def fetch_cities():
     """
-    Fetches Gender SMR Trend data for a specific city by reading 
-    the query from 'gender_SMR_trend.sql'.
+    Fetches the list of all available cities for the dropdown.
+    This query is embedded because it is a simple, universal list query.
     """
-    # Read the query string from the dedicated SQL file
-    sql_query = _read_sql_file('gender_SMR_trend.sql') 
-    
+    sql_query = _read_sql_file('cities_list.sql')
+
     conn = get_db_connection()
     try:
-        data = conn.execute(sql_query, (city_code,)).fetchall()
+        data = conn.execute(sql_query).fetchall()
         return [dict(d) for d in data]
     finally:
         conn.close()

@@ -1,6 +1,9 @@
 from flask import Flask, render_template, jsonify
 # Import the functions from your new database service file
-from database_service import fetch_cities, fetch_gender_smr_data, fetch_welfare_data 
+from graph.python.cities_list import fetch_cities
+from graph.python.gender_SMR_trend import fetch_gender_smr_data
+from graph.python.welfare_spending import fetch_welfare_data
+from graph.python.service_accessibility import fetch_service_accessibility_data
 
 # --- Configuration ---
 app = Flask(__name__)
@@ -63,6 +66,22 @@ def get_welfare_data(city_code):
         print(f"Error fetching welfare data from DB service for {city_code}: {e}")
         return jsonify({"error": "Failed to fetch welfare chart data."}), 500
 
+# 4. NEW Route for Service Accessibility Map Data
+@app.route("/map/accessibility")
+def get_service_accessibility_data():
+    """
+    Fetches data for the Service Accessibility Map (Bubble Chart).
+    """
+    try:
+        data_list = fetch_service_accessibility_data()
+        
+        return jsonify({
+            "data": data_list
+        })
+
+    except Exception as e:
+        print(f"Error fetching service accessibility data: {e}")
+        return jsonify({"error": "Failed to fetch map data."}), 500
 
 if __name__ == "__main__":
     app.run(debug=True)

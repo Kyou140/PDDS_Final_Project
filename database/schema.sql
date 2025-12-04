@@ -3,6 +3,7 @@ CREATE TABLE CityInfo (
     city_code VARCHAR(10) PRIMARY KEY,
     city_name VARCHAR(100),
     population INT,
+    area DECIMAL(10,2),
     region VARCHAR(100),
     special_municipality BOOLEAN
 );
