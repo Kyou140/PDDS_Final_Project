@@ -82,11 +82,9 @@ async function renderWelfareChart(city_code, cityName) {
     }
 }
 
-// Renders the Service Accessibility Map with Bubble Chart (New Function)
-// FIX 1: Remove city_code and cityName arguments. This map is nationwide.
+// Renders the Service Accessibility Map with Bubble Chart
 async function renderAccessibilityMap() {
     try {
-        // FIX 2: Revert fetch URL to the correct nationwide route
         const response = await fetch(`/map/accessibility`); 
         if (!response.ok) {
             throw new Error(`HTTP ${response.status}`);
@@ -105,7 +103,6 @@ async function renderAccessibilityMap() {
 
         // --- Plotly Layout ---
         const mapLayout = {
-            // FIX 3: Set initial placeholder title. This will be updated dynamically later.
             title: 'Taiwan — Service Facility Density',
             height: 450, // Match the height of other charts
             geo: {
@@ -155,11 +152,51 @@ async function renderAccessibilityMap() {
 }
 
 
-// --- Summary Panel Logic (No changes needed) ---
+// --- Control Panel Details Logic ---
+
+async function updateCityDetailsPanel(city_code) {
+    try {
+        const response = await fetch(`/city/${city_code}/details`);
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+
+        const details = await response.json();
+        
+        // Helper function for formatting numbers
+        const formatNumber = (value) => value !== undefined ? value.toLocaleString() : '--';
+        const formatArea = (value) => value !== undefined ? value.toLocaleString() + ' km²' : '--';
+
+        // Update the display spans on the controls panel
+        document.getElementById('centerNumberDisplay').textContent = 
+            formatNumber(details.center_number);
+        
+        document.getElementById('onlineCenterNumberDisplay').textContent = 
+            formatNumber(details.online_center_number);
+            
+        document.getElementById('populationDisplay').textContent = 
+            formatNumber(details.population);
+            
+        document.getElementById('areaDisplay').textContent = 
+            formatArea(details.area);
+
+    } catch (err) {
+        console.error("Error updating city details panel:", err);
+        // Fallback to placeholder on error
+        document.getElementById('centerNumberDisplay').textContent = 'ERROR';
+        document.getElementById('onlineCenterNumberDisplay').textContent = 'ERROR';
+        document.getElementById('populationDisplay').textContent = 'ERROR';
+        document.getElementById('areaDisplay').textContent = 'ERROR';
+    }
+}
+
+
+// --- Summary Panel Logic ---
 
 async function updateSummaryPanels(city_code, year) {
     // This remains the same as previously defined for summary panels
     try {
+
         // 1. Fetch Gender Data (for High Risk/SMR metric)
         const genderResponse = await fetch(`/city/${city_code}/gender`);
         const genderData = await genderResponse.json();
@@ -183,12 +220,11 @@ async function updateSummaryPanels(city_code, year) {
         const yearSpending = allWelfareData.find(d => d.year.toString() === year);
         const spending = yearSpending ? yearSpending.spending : 0;
 
-
         // 3. Update the display panels
         document.getElementById('highRiskHighResourcesValue').textContent = avgSMR.toFixed(2);
         
         // Using welfare spending as a placeholder for Resources Allocated
-        document.getElementById('highRiskLowResourcesValue').textContent = `$${spending.toLocaleString()}`; 
+        document.getElementById('highRiskLowResourcesValue').textContent = `$${spending.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`; 
         
         // Placeholder for the "Generation Rate" metric. 
         document.getElementById('highRiskGenerationValue').textContent = year === '2024' ? '1.2%' : '1.5%';
@@ -229,8 +265,9 @@ function handleYearSelection(event) {
 }
 
 // --- Dynamic Map Title Update ---
+
 function updateMapTitle(cityName) {
-    const newTitle = `${cityName} — Service Facility Density`;
+    const newTitle = `Taiwan — Service Facility Density (Focus on ${cityName})`;
     
     // Check if the plot exists before attempting to update the layout
     const mapDiv = document.getElementById("accessibilityMapChart");
@@ -250,15 +287,18 @@ function loadAllChartsForCity(city_code, cityName) {
         return; 
     }
     
-    // 1. Render both full trend charts
+    // 1. Update the summary panels with the currently selected year's data
+    updateSummaryPanels(city_code, selectedYear);
+    
+    // 2. Update the Control Panel details for the selected city
+    updateCityDetailsPanel(city_code); 
+    
+    // 3. Render both full trend charts
     renderGenderChart(city_code, cityName);
     renderWelfareChart(city_code, cityName);
     
-    // 2. Update the summary panels with the currently selected year's data
-    updateSummaryPanels(city_code, selectedYear);
-    
-    // FIX 4: Call the new function to dynamically update the map title
-    updateMapTitle(cityName); 
+    // 4. Call the new function to dynamically update the map title
+    updateMapTitle(cityName);
 }
 
 
