@@ -1,10 +1,5 @@
 from database_service import get_db_connection, _read_sql_file
 
-# --- Configuration ---
-# Assumes the database file is in the 'database' directory relative to where app.py runs
-DATABASE_PATH = 'database/database.db' 
-SQL_DIR = './graph/sql'
-
 def fetch_gender_smr_data(city_code):
     """
     Fetches Gender SMR Trend data for a specific city by reading 

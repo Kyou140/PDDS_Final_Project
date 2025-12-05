@@ -66,7 +66,7 @@ def get_welfare_data(city_code):
         print(f"Error fetching welfare data from DB service for {city_code}: {e}")
         return jsonify({"error": "Failed to fetch welfare chart data."}), 500
 
-# 4. NEW Route for Service Accessibility Map Data
+# 4. Route for Service Accessibility Map Data
 @app.route("/map/accessibility")
 def get_service_accessibility_data():
     """

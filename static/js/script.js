@@ -37,9 +37,9 @@ async function renderGenderChart(city_code, cityName) {
                 line: {color: 'pink'}
             }
         ], {
-            title: `${cityName} — Gender SMR Trend`,
+            title: `${cityName} — Gender Standardized Mortality Ratio`,
             xaxis: { title: "Year" },
-            yaxis: { title: "SMR" }
+            yaxis: { title: "Standardized Mortality Ratio" }
         });
         document.getElementById("error").textContent = "";
     } catch (err) {
@@ -69,7 +69,7 @@ async function renderWelfareChart(city_code, cityName) {
                 line: {color: 'orange'}
             }
         ], {
-            title: `${cityName} — Per Capita Social Welfare Expenditure Trend`,
+            title: `${cityName} — Per Capita Social Welfare Expenditure`,
             xaxis: { title: "Year" },
             yaxis: { title: "Spending ($)" }
         });
