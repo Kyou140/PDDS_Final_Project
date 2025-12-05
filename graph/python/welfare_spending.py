@@ -1,13 +1,9 @@
 from database_service import get_db_connection, _read_sql_file
 
 def fetch_welfare_data(city_code):
-    """
-    Fetches Welfare Spending data for a specific city by reading 
-    the query from 'welfare_spending.sql'.
-    """
+    """Fetches Welfare Spending data for a specific city by reading the query from 'welfare_spending.sql'."""
     # Read the query string from the dedicated SQL file
     sql_query = _read_sql_file('welfare_spending.sql')
-    
     conn = get_db_connection()
     try:
         data = conn.execute(sql_query, (city_code,)).fetchall()

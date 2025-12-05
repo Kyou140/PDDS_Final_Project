@@ -2,6 +2,6 @@
 SELECT 
     year,
     spending
-FROM SocialWelfareSpending -- Assuming a table with welfare expenditure data
+FROM SocialWelfareSpending
 WHERE city_code = ?
 ORDER BY year;

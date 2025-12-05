@@ -1,5 +1,6 @@
 // --- Global State ---
-let selectedYear = '2024'; // Default year matches the button set as 'active'
+// Default year (year that the page start with) matches the button set as 'active'
+let selectedYear = '2024';
 
 // --- Core Chart Logic Functions ---
 
@@ -157,7 +158,7 @@ async function renderAccessibilityMap() {
 // --- Summary Panel Logic (No changes needed) ---
 
 async function updateSummaryPanels(city_code, year) {
-    // NOTE: This remains the same as previously defined for summary panels
+    // This remains the same as previously defined for summary panels
     try {
         // 1. Fetch Gender Data (for High Risk/SMR metric)
         const genderResponse = await fetch(`/city/${city_code}/gender`);
@@ -201,7 +202,7 @@ async function updateSummaryPanels(city_code, year) {
 }
 
 
-// --- Year Selection Handler (No changes needed) ---
+// --- Year Selection Handler ---
 
 function handleYearSelection(event) {
     if (event.target.tagName !== 'BUTTON') return;
@@ -227,11 +228,7 @@ function handleYearSelection(event) {
     }
 }
 
-// --- Dynamic Map Title Update (NEW FUNCTION) ---
-/**
- * Updates the title of the accessibility map chart to reflect the selected city name.
- * @param {string} cityName - The currently selected city/county name.
- */
+// --- Dynamic Map Title Update ---
 function updateMapTitle(cityName) {
     const newTitle = `${cityName} — Service Facility Density`;
     
@@ -288,7 +285,7 @@ async function loadCityList() {
         document.getElementById('year-selector').addEventListener('click', handleYearSelection);
 
         // *** Render the accessibility map once when the app loads ***
-        renderAccessibilityMap(); // Correctly called without arguments
+        renderAccessibilityMap();
 
         // Auto-load charts for the first city after list is loaded
         if (cities.length > 0) {

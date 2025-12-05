@@ -1,0 +1,158 @@
+/* 1. Center the entire dashboard content */
+#main-container {
+    max-width: 1400px;
+    /* Centers the whole container */
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Center the main title */
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 25px;
+}
+
+/* 2. Full-Width Top Controls Section */
+#top-full-width {
+    margin-bottom: 30px;
+}
+
+/* Center the Year Selector Buttons group */
+#year-selector {
+    display: flex; 
+    gap: 10px;
+    /* Make container only as wide as content */
+    width: fit-content;
+    /* Center the buttons horizontally */
+    margin: 0 auto 20px auto;
+}
+#year-selector button {
+    padding: 10px 20px;
+    border: 1px solid #007bff;
+    background-color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    border-radius: 5px;
+    font-weight: bold;
+}
+#year-selector button.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+/* Styling for the new Interactive Panels */
+#summary-panels {
+    display: flex;
+    /* Center the panels group */
+    justify-content: center;
+    gap: 20px;
+    /* Limits width of summary panels for clean look */
+    max-width: 900px;
+    /* Center the panel group horizontally */
+    margin: 0 auto;
+}
+.data-panel {
+    flex: 1;
+    text-align: center;
+    border: 1px solid #ddd;
+    padding: 15px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+.data-panel h3 {
+    margin: 0 0 5px 0;
+    font-size: 0.9em;
+    color: #555;
+    text-transform: uppercase;
+}
+.data-panel .value {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #000000;
+    display: block;
+}
+
+/* --- TOP ROW 50/50 LAYOUT (Controls + Gender Chart) --- */
+#top-row-split {
+    display: flex;
+    /* Define the gap */
+    gap: 10px;
+    width: 100%;
+    /* Space between the top row and the bottom charts */
+    margin-bottom: 30px;
+}
+
+#controls-panel, #gender-chart-panel {
+    /* Use calc to achieve a mathematically precise 50% width */
+    flex-basis: calc(50% - 5px); 
+    /* Lock the size and stretch height for vertical alignment */
+    flex-grow: 0;
+    flex-shrink: 0; 
+    align-self: stretch; 
+}
+
+#controls-panel {
+    min-width: 250px; 
+    /* Change padding from 20px to 15px to match chart panels */
+    padding: 15px; 
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+#gender-chart-panel {
+    padding: 15px; 
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    flex-grow: 1; 
+}
+
+/* --- BOTTOM ROW 50/50 LAYOUT (Map + Welfare Chart) --- */
+#bottom-row-split {
+    display: flex;
+    gap: 10px; 
+    width: 100%;
+}
+
+#accessibility-map-panel, #welfare-chart-panel {
+    /* Use calc to achieve a mathematically precise 50% width */
+    flex-basis: calc(50% - 5px); 
+    flex-grow: 0;
+    flex-shrink: 0; 
+    padding: 15px; 
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+
+.graph-container {
+    width: 100%;
+}
+h2 {
+    margin-top: 0;
+    color: #555;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+#citySelect {
+    font-size: 1.2em; 
+    padding: 8px;
+    width: 100%; 
+    border-radius: 5px;
+}
+.controls label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/* Base style that was already outside the <style> block */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+}

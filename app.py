@@ -7,7 +7,6 @@ from graph.python.service_accessibility import fetch_service_accessibility_data
 
 # --- Configuration ---
 app = Flask(__name__)
-# Removed all SQLite imports and connection functions
 
 # --- Routes ---
 
@@ -37,7 +36,6 @@ def get_gender_data(city_code):
     try:
         # Calls the function in db_service.py
         data_list = fetch_gender_smr_data(city_code)
-        
         return jsonify({
             "city": city_code,
             "data": data_list
@@ -55,7 +53,6 @@ def get_welfare_data(city_code):
     try:
         # Calls the function in db_service.py
         data_list = fetch_welfare_data(city_code)
-
         return jsonify({
             "city": city_code,
             "data": data_list
@@ -69,17 +66,16 @@ def get_welfare_data(city_code):
 # 4. Route for Service Accessibility Map Data
 @app.route("/map/accessibility")
 def get_service_accessibility_data():
-    """
-    Fetches data for the Service Accessibility Map (Bubble Chart).
-    """
+    """Fetches the Service Accessibility Map by calling the db_service function."""
     try:
+        # Calls the function in db_service.py
         data_list = fetch_service_accessibility_data()
-        
         return jsonify({
             "data": data_list
         })
 
     except Exception as e:
+        # Handles errors from the database layer
         print(f"Error fetching service accessibility data: {e}")
         return jsonify({"error": "Failed to fetch map data."}), 500
 
