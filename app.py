@@ -5,6 +5,7 @@ from graph.python.city_details import fetch_city_details
 from graph.python.gender_SMR_trend import fetch_gender_smr_data
 from graph.python.service_accessibility import fetch_service_accessibility_data
 from graph.python.welfare_spending import fetch_welfare_data
+from graph.python.age_trend_analysis import fetch_age_trend
 
 # --- Configuration ---
 app = Flask(__name__)
@@ -92,6 +93,19 @@ def get_welfare_data(city_code):
         # Handles errors from the database layer
         print(f"Error fetching welfare data from DB service for {city_code}: {e}")
         return jsonify({"error": "Failed to fetch welfare chart data."}), 500
+    
+# 6. Route for Age Trend Analysis Chart (Nationwide)
+@app.route("/age_trend")
+def get_age_trend_data():
+    """Fetches Taiwan suicide rate trends by age group (nationwide)."""
+    try:
+        data_list = fetch_age_trend()  # call your loader
+        return jsonify({
+            "data": data_list
+        })
+    except Exception as e:
+        print(f"Error fetching age trend data: {e}")
+        return jsonify({"error": "Failed to fetch age trend chart data."}), 500
 
 # --- Main Execution ---
 if __name__ == "__main__":
