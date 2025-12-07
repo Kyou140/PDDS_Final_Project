@@ -4,6 +4,11 @@ let selectedYear = '2024';
 
 // --- Core Chart Logic Functions ---
 
+// Renders the Resourice Priority Chart in the dedicated 'recourceChart' div
+
+
+
+
 // Renders the Gender SMR Trend chart in the dedicated 'genderChart' div
 async function renderGenderChart(city_code, cityName) {
     try {
