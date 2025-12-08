@@ -107,7 +107,7 @@ def get_happiness_suicide_data():
             "data" : data_list
         })
 
-    except Exciption as e:
+    except Exception as e:
         print(f"Error fetching happiness/suicide data: {e}")
         return jsonify({"error" : "Failed to fetch happiness/suicide data."}),500
 
