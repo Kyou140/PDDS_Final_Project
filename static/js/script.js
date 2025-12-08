@@ -1,9 +1,86 @@
 // --- Global State ---
 // Default year (year that the page start with) matches the button set as 'active'
 let selectedYear = '2024';
+let ageTrendByYear = {};  // { 2020: [...], 2021: [...], ... }
 
 let ageTrendByYear = {};  // { 2020: [...], 2021: [...], ... }
 // --- Core Chart Logic Functions ---
+
+// Renders the Resourice Priority Chart in the dedicated 'recourceChart' div
+// NOTE: Placeholder function added to prevent errors, as the logic was missing.
+async function renderResourceChart(city_code, cityName) {
+    // This function is currently a placeholder.
+    // Replace with actual Plotly logic when data is available.
+    console.log(`Rendering placeholder Resource Chart for ${cityName}`);
+    Plotly.newPlot("resourceChart", [], {
+        title: `${cityName} — Resource Priority Chart (Data Not Loaded)`,
+        annotations: [{
+            text: "Chart data logic is pending.",
+            xref: "paper",
+            yref: "paper",
+            showarrow: false,
+            font: { size: 16, color: "#999" }
+        }]
+    });
+}
+
+
+// --- Age Trend Analysis (Nationwide) ---
+async function initAgeTrendChart() {
+    try {
+        const response = await fetch("/age_trend");
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+
+        const json = await response.json();
+        const data = json.data || [];
+
+        // Group data by year
+        ageTrendByYear = {};
+        data.forEach(row => {
+            const y = row.year;  // number
+            if (!ageTrendByYear[y]) {
+                ageTrendByYear[y] = [];
+            }
+            ageTrendByYear[y].push(row);
+        });
+
+        // Render chart for default selectedYear
+        const yearNum = parseInt(selectedYear, 10);
+        renderAgeTrendForYear(yearNum);
+
+    } catch (err) {
+        console.error("Error initializing age trend chart:", err);
+    }
+}
+
+function renderAgeTrendForYear(year) {
+    const rows = ageTrendByYear[year];
+    if (!rows || rows.length === 0) {
+        console.warn("No age trend data for year:", year);
+        return;
+    }
+
+    const ageLabels = rows.map(r => r.age_group);
+    const suicideRates = rows.map(r => r.crude_suicide_rate);
+
+    const trace = {
+        x: ageLabels,
+        y: suicideRates,
+        type: "bar",
+        marker: { color: "#4a90e2" }
+    };
+
+    const layout = {
+        title: `Nationwide Suicide Rate by Age Group — ${year}`,
+        xaxis: { title: "Age Group" },
+        yaxis: { title: "Suicide Rate per 100,000" },
+        margin: { t: 50, l: 60, r: 20, b: 60 }
+    };
+
+    Plotly.react("ageTrendChart", [trace], layout);
+}
 
 // Renders the Gender SMR Trend chart in the dedicated 'genderChart' div
 async function renderGenderChart(city_code, cityName) {
@@ -355,11 +432,14 @@ function loadAllChartsForCity(city_code, cityName) {
     // 2. Update the Control Panel details for the selected city
     updateCityDetailsPanel(city_code); 
     
-    // 3. Render both full trend charts
+    // 3. Render the Resource Priority Chart (New call added here)
+    renderResourceChart(city_code, cityName);
+
+    // 4. Render the Gender SMR Trend and Welfare Spending Trend charts
     renderGenderChart(city_code, cityName);
     renderWelfareChart(city_code, cityName);
     
-    // 4. Call the new function to dynamically update the map title
+    // 5. Update the map title
     updateMapTitle(cityName);
 }
 

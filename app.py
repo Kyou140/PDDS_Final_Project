@@ -5,7 +5,9 @@ from graph.python.city_details import fetch_city_details
 from graph.python.gender_SMR_trend import fetch_gender_smr_data
 from graph.python.service_accessibility import fetch_service_accessibility_data
 from graph.python.welfare_spending import fetch_welfare_data
+from graph.python.resource_priority_map import fetch_resource_priority_data
 from graph.python.age_trend_analysis import fetch_age_trend
+
 
 # --- Configuration ---
 app = Flask(__name__)
@@ -94,7 +96,23 @@ def get_welfare_data(city_code):
         print(f"Error fetching welfare data from DB service for {city_code}: {e}")
         return jsonify({"error": "Failed to fetch welfare chart data."}), 500
     
-# 6. Route for Age Trend Analysis Chart (Nationwide)
+# 6. Route for Resource Priority Map Data 
+@app.route("/chart/resource")   
+def get_happiness_suicide_data():
+    """Fetches all data for the Happiness vs. Suicide Scatter Plot"""
+
+    try:
+    # Calls the function in db_resource.py
+       data_list = fetch_resource_priority_data()
+       return jsonify({
+            "data" : data_list
+        })
+
+    except Exception as e:
+        print(f"Error fetching happiness/suicide data: {e}")
+        return jsonify({"error" : "Failed to fetch happiness/suicide data."}),500
+    
+# 7. Route for Age Trend Analysis Chart (Nationwide)
 @app.route("/age_trend")
 def get_age_trend_data():
     """Fetches Taiwan suicide rate trends by age group (nationwide)."""
