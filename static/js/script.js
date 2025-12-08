@@ -3,6 +3,7 @@
 let selectedYear = '2024';
 let ageTrendByYear = {};  // { 2020: [...], 2021: [...], ... }
 
+let ageTrendByYear = {};  // { 2020: [...], 2021: [...], ... }
 // --- Core Chart Logic Functions ---
 
 // Renders the Resourice Priority Chart in the dedicated 'recourceChart' div
@@ -228,6 +229,63 @@ async function renderAccessibilityMap() {
     }
 }
 
+// --- Age Trend Analysis (Nationwide) ---
+
+async function initAgeTrendChart() {
+    try {
+        const response = await fetch("/age_trend");
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+
+        const json = await response.json();
+        const data = json.data || [];
+
+        // Group data by year
+        ageTrendByYear = {};
+        data.forEach(row => {
+            const y = row.year;  // number
+            if (!ageTrendByYear[y]) {
+                ageTrendByYear[y] = [];
+            }
+            ageTrendByYear[y].push(row);
+        });
+
+        // Render chart for default selectedYear
+        const yearNum = parseInt(selectedYear, 10);
+        renderAgeTrendForYear(yearNum);
+
+    } catch (err) {
+        console.error("Error initializing age trend chart:", err);
+    }
+}
+
+function renderAgeTrendForYear(year) {
+    const rows = ageTrendByYear[year];
+    if (!rows || rows.length === 0) {
+        console.warn("No age trend data for year:", year);
+        return;
+    }
+
+    const ageLabels = rows.map(r => r.age_group);
+    const suicideRates = rows.map(r => r.crude_suicide_rate);
+
+    const trace = {
+        x: ageLabels,
+        y: suicideRates,
+        type: "bar",
+        marker: { color: "#4a90e2" }
+    };
+
+    const layout = {
+        title: `Nationwide Suicide Rate by Age Group — ${year}`,
+        xaxis: { title: "Age Group" },
+        yaxis: { title: "Suicide Rate per 100,000" },
+        margin: { t: 50, l: 60, r: 20, b: 60 }
+    };
+
+    Plotly.react("ageTrendChart", [trace], layout);
+}
 
 // --- Control Panel Details Logic ---
 
