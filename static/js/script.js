@@ -3,7 +3,6 @@
 let selectedYear = '2024';
 let ageTrendByYear = {};  // { 2020: [...], 2021: [...], ... }
 
-let ageTrendByYear = {};  // { 2020: [...], 2021: [...], ... }
 // --- Core Chart Logic Functions ---
 
 // Renders the Resourice Priority Chart in the dedicated 'recourceChart' div
