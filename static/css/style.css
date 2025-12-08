@@ -74,9 +74,47 @@ h1 {
     color: #000000;
     display: block;
 }
-
-/* --- TOP ROW 50/50 LAYOUT (Controls + Gender Chart) --- */
+/* --- TOP ROW 50/50 LAYOUT (Resource Chart + Age Trend Chart) --- */
 #top-row-split {
+    display: flex;
+    /* Define the gap */
+    gap: 10px;
+    width: 100%;
+    /* Space between the top row and the bottom charts */
+    margin-bottom: 30px;
+}
+
+#resource-chart-panel, #age-trend-chart-panel {
+    /* Use calc to achieve a mathematically precise 50% width */
+    flex-basis: calc(50% - 5px); 
+    flex-grow: 0;
+    flex-shrink: 0; 
+    padding: 15px; 
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+
+#resource-chart-panel {
+    padding: 15px; 
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    flex-grow: 1; 
+}
+
+#age-trend-chart-panel{
+    padding: 15px; 
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    flex-grow: 1; 
+}
+
+
+/* --- MID ROW 50/50 LAYOUT (Controls + Gender Chart) --- */
+#mid-row-split {
     display: flex;
     /* Define the gap */
     gap: 10px;
