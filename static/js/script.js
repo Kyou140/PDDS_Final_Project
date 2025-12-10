@@ -90,7 +90,6 @@ function renderResourceChart() {
     
     // 4. Define the Layout
     const layout = {
-        title: `Resource Priority Map: Suicide Rate vs. Happiness Score (${selectedYear} Data)`,
         xaxis: { 
             title: "Resource (Happiness Score)",
             rangemode: 'tozero'
@@ -193,9 +192,8 @@ function renderAgeTrendForYear(year) {
     };
 
     const layout = {
-        title: `Nationwide Suicide Rate by Age Group — ${year}`,
         xaxis: { title: "Age Group" },
-        yaxis: { title: "Suicide Rate per 100,000" },
+        yaxis: { title: "Suicide Rate (per 100,000)" },
         margin: { t: 50, l: 60, r: 20, b: 60 }
     };
 
@@ -418,7 +416,7 @@ async function updateSummaryPanels(city_code, year) {
         const spending = yearSpending ? yearSpending.spending : 0;
 
         // 3. Update the display panels
-        document.getElementById('highRiskHighResourcesValue').textContent = year === '2023' || year === '2024' ? 'Kaoshiung City' : 'Lienchiang Country';
+        document.getElementById('highRiskHighResourcesValue').textContent = year === '2023' || year === '2024' ? 'Kaoshiung City' : 'Lienchiang County';
         
         // Using welfare spending as a placeholder for Resources Allocated
         document.getElementById('highRiskLowResourcesValue').textContent = year === '2020' || year === '2022' ? 'Miaoli County' : 'Keelung City'; 
