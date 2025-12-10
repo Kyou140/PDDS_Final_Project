@@ -69,19 +69,36 @@ h1 {
     text-transform: uppercase;
 }
 .data-panel .value {
-    font-size: 1.8em;
+    font-size: 1.5em;
     font-weight: bold;
     color: #000000;
     display: block;
 }
+
+
 /* --- TOP ROW 50/50 LAYOUT (Resource Chart + Age Trend Chart) --- */
 #top-row-split {
-    display: flex;
+    display: flex; 
     /* Define the gap */
     gap: 10px;
     width: 100%;
-    /* Space between the top row and the bottom charts */
+    /* Space between the top row and the middle row */
     margin-bottom: 30px;
+    /* NEW: Add relative positioning to anchor the pseudo-element */
+    position: relative; 
+}
+
+/* NEW: Pseudo-element to create the centered separation line */
+#top-row-split::after {
+    content: '';
+    position: absolute;
+    /* FIX: Center the 3px line in the 30px margin gap. */
+    bottom: -13.5px; 
+    left: 0;
+    right: -60px;
+    height: 3px;
+    background-color: black;
+    z-index: 10;
 }
 
 #resource-chart-panel, #age-trend-chart-panel {
@@ -119,26 +136,30 @@ h1 {
     /* Define the gap */
     gap: 10px;
     width: 100%;
-    /* Space between the top row and the bottom charts */
+    /* Space between the middle row and the bottom row */
     margin-bottom: 30px;
 }
 
 #controls-panel, #gender-chart-panel {
     /* Use calc to achieve a mathematically precise 50% width */
     flex-basis: calc(50% - 5px); 
-    /* Lock the size and stretch height for vertical alignment */
     flex-grow: 0;
     flex-shrink: 0; 
+    padding: 15px; 
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); 
     align-self: stretch; 
 }
 
 #controls-panel {
-    min-width: 250px; 
-    /* Change padding from 20px to 15px to match chart panels */
     padding: 15px; 
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    flex-grow: 1;
+    /* Explicitly set a min-height to match a chart panel's height */
+    min-height: 500px; 
 }
 
 #gender-chart-panel {
@@ -146,14 +167,16 @@ h1 {
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-    flex-grow: 1; 
+    flex-grow: 1;
 }
 
 /* --- BOTTOM ROW 50/50 LAYOUT (Map + Welfare Chart) --- */
 #bottom-row-split {
     display: flex;
-    gap: 10px; 
+    /* Define the gap */
+    gap: 10px;
     width: 100%;
+    margin-bottom: 30px;
 }
 
 #accessibility-map-panel, #welfare-chart-panel {
@@ -193,17 +216,4 @@ h2 {
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f9;
-}
-
-#top-row-split {
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* two equal columns */
-    grid-gap: 20px;
-    margin-top: 20px;
-}
-
-#future-chart-panel, #age-trend-panel {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
 }
