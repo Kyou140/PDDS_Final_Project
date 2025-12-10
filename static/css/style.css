@@ -69,14 +69,14 @@ h1 {
     text-transform: uppercase;
 }
 .data-panel .value {
-    font-size: 1.8em;
+    font-size: 1.5em;
     font-weight: bold;
     color: #000000;
     display: block;
 }
 /* --- TOP ROW 50/50 LAYOUT (Resource Chart + Age Trend Chart) --- */
 #top-row-split {
-    display: flex;
+    display: flex; /* <-- Ensure this is used for width/height consistency */
     /* Define the gap */
     gap: 10px;
     width: 100%;
@@ -126,19 +126,24 @@ h1 {
 #controls-panel, #gender-chart-panel {
     /* Use calc to achieve a mathematically precise 50% width */
     flex-basis: calc(50% - 5px); 
-    /* Lock the size and stretch height for vertical alignment */
     flex-grow: 0;
     flex-shrink: 0; 
+    padding: 15px; 
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); 
+    /* NEW: Force the height of both panels to match the row's height */
     align-self: stretch; 
 }
 
 #controls-panel {
-    min-width: 250px; 
-    /* Change padding from 20px to 15px to match chart panels */
     padding: 15px; 
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    flex-grow: 1;
+    /* NEW: Explicitly set a min-height to match a chart panel's height (450px chart + title/padding) */
+    min-height: 500px; 
 }
 
 #gender-chart-panel {
@@ -146,14 +151,17 @@ h1 {
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-    flex-grow: 1; 
+    flex-grow: 1;
 }
 
 /* --- BOTTOM ROW 50/50 LAYOUT (Map + Welfare Chart) --- */
 #bottom-row-split {
     display: flex;
-    gap: 10px; 
+    /* Define the gap */
+    gap: 10px;
     width: 100%;
+    /* Space between the top row and the bottom charts */
+    margin-bottom: 30px;
 }
 
 #accessibility-map-panel, #welfare-chart-panel {
@@ -193,17 +201,4 @@ h2 {
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f9;
-}
-
-#top-row-split {
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* two equal columns */
-    grid-gap: 20px;
-    margin-top: 20px;
-}
-
-#future-chart-panel, #age-trend-panel {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
 }
