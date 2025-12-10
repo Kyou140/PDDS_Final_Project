@@ -71,7 +71,7 @@ h1 {
 .data-panel .value {
     font-size: 1.5em;
     font-weight: bold;
-    color: #000000;
+    color: rgba(0, 0, 0, 0.85);
     display: block;
 }
 
@@ -99,7 +99,7 @@ h1 {
     right: -10px; 
     height: 3px;
     width: 104.35%;
-    background-color: black;
+    background-color: rgba(0, 0, 0, 0.5);
     z-index: 10;
 }
 
