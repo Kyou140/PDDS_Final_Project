@@ -42,7 +42,12 @@ function renderResourceChart() {
     const getX = (d) => d.happiness_score;
     const getY = (d) => d.suicide_rate;
     const getName = (d) => d.city_name;
-    const isSpecial = (d) => d.special_municipality === 1; 
+    const isSpecial = (d) => {
+        const val = d.special_municipality;
+        if (val == "Special Municipality") {
+            return 1;
+        }
+    };
 
     // 1. Separate data into Special Municipality (Group 1) and Non-Special Municipality (Group 2)
     const specialMunicipalities = dataForSelectedYear.filter(isSpecial);
