@@ -261,6 +261,20 @@ async function renderWelfareChart(city_code, cityName) {
 
         const cityData = await response.json();
         const data = cityData.data;
+        
+        // Calculate the average spending
+        const totalSpending = data.reduce((sum, d) => sum + d.spending, 0);
+        const averageSpending = data.length > 0 ? totalSpending / data.length : 0;
+        
+        // Trace for the average spending line
+        const avgTrace = {
+            x: data.map(d => d.year),
+            // Use the constant average value for all years
+            y: data.map(() => averageSpending), 
+            mode: "lines",
+            name: "Average Spending",
+            line: { color: 'red', dash: 'dashdot' }
+        };
 
         Plotly.newPlot("welfareChart", [ 
             {
@@ -268,8 +282,9 @@ async function renderWelfareChart(city_code, cityName) {
                 y: data.map(d => d.spending), 
                 mode: "lines+markers",
                 name: "Welfare Expenditure",
-                line: {color: 'orange'}
-            }
+                line: {color: 'gold'}
+            },
+            avgTrace // Add the average line trace
         ], {
             title: `${cityName} — Per Capita Social Welfare Expenditure`,
             xaxis: { title: "Year" },
