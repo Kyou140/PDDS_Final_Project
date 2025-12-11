@@ -1,23 +1,23 @@
-city_name,city_code,population,area,region,special_municipality
-Taipei City,A,"2,490,000",271.79,Northern,Special Municipality
-New Taipei City,F,"3,970,000","2,052.57",Northern,Special Municipality
-Taoyuan City,H,"2,270,000","1,220.95",Northern,Special Municipality
-Taichung City,B,"2,810,000","2,214.90",Central,Special Municipality
-Tainan City,D,"1,886,000","2,191.65",Southern,Special Municipality
-Kaohsiung City,E,"2,770,000","2,951.85",Southern,Special Municipality
-Keelung City,C,"370,000",132.76,Northern,Non-Special Municipality
-Hsinchu City,O,"460,000",104.15,Northern,Non-Special Municipality
-Hsinchu County,J,"590,000","1,427.59",Northern,Non-Special Municipality
-Miaoli County,K,"540,000","1,820.31",Central,Non-Special Municipality
-Changhua County,N,"1,260,000","1,074.39",Central,Non-Special Municipality
-Nantou County,M,"480,000","4,106.43",Central,Non-Special Municipality
-Yunlin County,P,"660,000","1,290.84",Central,Non-Special Municipality
-Chiayi City,I,"264,000",60.03,Southern,Non-Special Municipality
-Chiayi County,Q,"490,000","1,901.67",Southern,Non-Special Municipality
-Pingtung County,T,"800,000","2,775.60",Southern,Non-Special Municipality
-Yilan County,G,"450,000","2,143.62",Eastern,Non-Special Municipality
-Hualien County,U,"330,000","4,628.57",Eastern,Non-Special Municipality
-Taitung County,V,"220,000","3,515.25",Eastern,Non-Special Municipality
-Penghu County,X,"100,000",141.05,Outlying Islands,Non-Special Municipality
-Kinmen County,W,"140,000",150.46,Outlying Islands,Non-Special Municipality
-Lienchiang County,Z,"13,000",29.6,Outlying Islands,Non-Special Municipality
+city_name,city_code,population,area,region,latitude,longitude,special_municipality
+Taipei City,A,"2,490,000",271.79,Northern,25.0375,121.5625,Special Municipality
+New Taipei City,F,"3,970,000","2,052.57",Northern,25.0125,121.465,Special Municipality
+Taoyuan City,H,"2,270,000","1,220.95",Northern,24.991278,121.314328,Special Municipality
+Taichung City,B,"2,810,000","2,214.90",Central,24.143889,120.679444,Special Municipality
+Tainan City,D,"1,886,000","2,191.65",Southern,22.99,120.185,Special Municipality
+Kaohsiung City,E,"2,770,000","2,951.85",Southern,22.615,120.2975,Special Municipality
+Keelung City,C,"370,000",132.76,Northern,25.133333,121.733333,Non-Special Municipality
+Hsinchu City,O,"460,000",104.15,Northern,24.816667,120.983333,Non-Special Municipality
+Hsinchu County,J,"590,000","1,427.59",Northern,24.833333,121.014722,Non-Special Municipality
+Miaoli County,K,"540,000","1,820.31",Central,24.563414,120.825828,Non-Special Municipality
+Changhua County,N,"1,260,000","1,074.39",Central,23.933333,120.533333,Non-Special Municipality
+Nantou County,M,"480,000","4,106.43",Central,23.9025,120.69,Non-Special Municipality
+Yunlin County,P,"660,000","1,290.84",Central,23.70489,120.47607,Non-Special Municipality
+Chiayi City,I,"264,000",60.03,Southern,23.48,120.449722,Non-Special Municipality
+Chiayi County,Q,"490,000","1,901.67",Southern,23.496206,120.641875,Non-Special Municipality
+Pingtung County,T,"800,000","2,775.60",Southern,22.675494,120.491414,Non-Special Municipality
+Yilan County,G,"450,000","2,143.62",Eastern,24.750556,121.759167,Non-Special Municipality
+Hualien County,U,"330,000","4,628.57",Eastern,23.976111,121.604722,Non-Special Municipality
+Taitung County,V,"220,000","3,515.25",Eastern,22.933333,120.933333,Non-Special Municipality
+Penghu County,X,"100,000",141.05,Outlying Islands,23.5675,119.5775,Non-Special Municipality
+Kinmen County,W,"140,000",150.46,Outlying Islands,24.44,118.33,Non-Special Municipality
+Lienchiang County,Z,"13,000",29.6,Outlying Islands,26.151111,119.927222,Non-Special Municipality

@@ -42,7 +42,12 @@ function renderResourceChart() {
     const getX = (d) => d.happiness_score;
     const getY = (d) => d.suicide_rate;
     const getName = (d) => d.city_name;
-    const isSpecial = (d) => d.special_municipality === 1; 
+    const isSpecial = (d) => {
+        const val = d.special_municipality;
+        if (val == "Special Municipality") {
+            return 1;
+        }
+    };
 
     // 1. Separate data into Special Municipality (Group 1) and Non-Special Municipality (Group 2)
     const specialMunicipalities = dataForSelectedYear.filter(isSpecial);
@@ -50,25 +55,7 @@ function renderResourceChart() {
 
     const traces = [];
 
-    // Trace 1: Non-Special Municipalities (Gray/Duller color)
-    traces.push({
-        x: nonSpecialMunicipalities.map(getX), 
-        y: nonSpecialMunicipalities.map(getY),
-        mode: 'markers',
-        type: 'scatter',
-        name: 'Non-Special Municipality',
-        marker: {
-            size: 10,
-            color: 'rgba(150, 150, 150, 0.7)', // Gray
-            line: { width: 1, color: 'rgb(100, 100, 100)' }
-        },
-        text: nonSpecialMunicipalities.map(d => 
-            `${getName(d)}<br>Suicide Rate: ${getY(d).toFixed(2)}<br>Happiness: ${getX(d).toFixed(2)}`
-        ),
-        hoverinfo: 'text'
-    });
-
-    // Trace 2: Special Municipalities (Blue/Highlight color)
+    // Trace 1: Special Municipalities (Blue/Highlight color)
     traces.push({
         x: specialMunicipalities.map(getX),
         y: specialMunicipalities.map(getY),
@@ -85,12 +72,29 @@ function renderResourceChart() {
         ),
         hoverinfo: 'text'
     });
+
+    // Trace 2: Non-Special Municipalities (Gray/Duller color)
+    traces.push({
+        x: nonSpecialMunicipalities.map(getX), 
+        y: nonSpecialMunicipalities.map(getY),
+        mode: 'markers',
+        type: 'scatter',
+        name: 'Non-Special Municipality',
+        marker: {
+            size: 10,
+            color: 'rgba(150, 150, 150, 0.7)', // Gray
+            line: { width: 1, color: 'rgb(100, 100, 100)' }
+        },
+        text: nonSpecialMunicipalities.map(d => 
+            `${getName(d)}<br>Suicide Rate: ${getY(d).toFixed(2)}<br>Happiness: ${getX(d).toFixed(2)}`
+        ),
+        hoverinfo: 'text'
+    });
     
     // NOTE: The highlight trace logic is completely REMOVED.
     
     // 4. Define the Layout
     const layout = {
-        title: `Resource Priority Map: Suicide Rate vs. Happiness Score (${selectedYear} Data)`,
         xaxis: { 
             title: "Resource (Happiness Score)",
             rangemode: 'tozero'
@@ -193,9 +197,8 @@ function renderAgeTrendForYear(year) {
     };
 
     const layout = {
-        title: `Nationwide Suicide Rate by Age Group — ${year}`,
         xaxis: { title: "Age Group" },
-        yaxis: { title: "Suicide Rate per 100,000" },
+        yaxis: { title: "Suicide Rate (per 100,000)" },
         margin: { t: 50, l: 60, r: 20, b: 60 }
     };
 
@@ -258,6 +261,20 @@ async function renderWelfareChart(city_code, cityName) {
 
         const cityData = await response.json();
         const data = cityData.data;
+        
+        // Calculate the average spending
+        const totalSpending = data.reduce((sum, d) => sum + d.spending, 0);
+        const averageSpending = data.length > 0 ? totalSpending / data.length : 0;
+        
+        // Trace for the average spending line
+        const avgTrace = {
+            x: data.map(d => d.year),
+            // Use the constant average value for all years
+            y: data.map(() => averageSpending), 
+            mode: "lines",
+            name: "Average Spending",
+            line: { color: 'red', dash: 'dashdot' }
+        };
 
         Plotly.newPlot("welfareChart", [ 
             {
@@ -265,8 +282,9 @@ async function renderWelfareChart(city_code, cityName) {
                 y: data.map(d => d.spending), 
                 mode: "lines+markers",
                 name: "Welfare Expenditure",
-                line: {color: 'orange'}
-            }
+                line: {color: 'gold'}
+            },
+            avgTrace // Add the average line trace
         ], {
             title: `${cityName} — Per Capita Social Welfare Expenditure`,
             xaxis: { title: "Year" },
@@ -280,8 +298,8 @@ async function renderWelfareChart(city_code, cityName) {
     }
 }
 
-// Renders the Service Accessibility Map with Bubble Chart
-async function renderAccessibilityMap() {
+// Renders the Service Accessibility Map with fixed-size dots, highlighting the selected city with a star.
+async function renderAccessibilityMap(city_code, cityName) {
     try {
         const response = await fetch(`/map/accessibility`); 
         if (!response.ok) {
@@ -291,61 +309,85 @@ async function renderAccessibilityMap() {
         const mapData = await response.json();
         const data = mapData.data;
 
-        // NOTE: If your database query fails or lacks Lat/Lon, this map will not render correctly.
-        // Assuming your data now includes 'latitude' and 'longitude' columns:
-        const lats = data.map(d => d.latitude || 23.6); // Fallback to Taiwan center if missing
-        const lons = data.map(d => d.longitude || 120.96); // Fallback to Taiwan center if missing
-        const facility_counts = data.map(d => d.total_facilities);
-        const densities = data.map(d => d.density_per_area);
-        const city_names = data.map(d => d.city_name);
+        // --- Data Access & Filtering ---
+        const DEFAULT_LAT = 23.6;
+        const DEFAULT_LON = 120.96;
+        
+        // Map all data properties for both traces
+        const latsAll = data.map(d => d.latitude || DEFAULT_LAT); 
+        const lonsAll = data.map(d => d.longitude || DEFAULT_LON); 
+        const densityPopAll = data.map(d => d.combined_facilities_per_100k_pop); 
+        const totalFacilitiesAll = data.map(d => d.total_facilities); 
+        const cityCodesAll = data.map(d => d.city_code);
+        const cityNamesAll = data.map(d => d.city_name);
+        
+        const allTraces = [];
+        
+        // --- 1. Trace for ALL Cities (Dots or Stars) ---
+        // We will create one trace and use Plotly's 'symbol' and 'size' arrays
+        // to assign different markers/sizes based on the city code.
+        
+        const symbolArray = cityCodesAll.map(code => (code === city_code) ? 'star' : 'circle');
+        const sizeArray = cityCodesAll.map(code => (code === city_code) ? 15 : 10);
+        
+        const mapTrace = {
+            name: 'City Accessibility',
+            type: 'scattergeo',
+            mode: 'markers',
+            lat: latsAll, 
+            lon: lonsAll, 
+            marker: {
+                // Apply the symbol and size arrays
+                size: sizeArray, 
+                symbol: symbolArray, 
+                
+                // Color is based on Density for ALL points
+                color: densityPopAll, 
+                colorscale: 'YlOrRd', 
+                
+                // Add a black line for selected city's star marker
+                line: {
+                    width: cityCodesAll.map(code => (code === city_code) ? 1.5 : 0.5),
+                    color: cityCodesAll.map(code => (code === city_code) ? '#000000' : 'rgba(0,0,0,0.5)')
+                },
+                
+                showscale: true,
+                colorbar: { title: "Density (Fac./100k Pop)" } 
+            },
+            text: cityNamesAll.map((name, i) => 
+                `${name}<br>Total Facilities: ${totalFacilitiesAll[i]}<br>Density/100k Pop: ${densityPopAll[i].toFixed(4)}`
+            ),
+            hoverinfo: 'text'
+        };
+        
+        allTraces.push(mapTrace);
 
-        // --- Plotly Layout ---
+
+        // --- Plotly Layout (Remains the same) ---
         const mapLayout = {
-            title: 'Taiwan — Service Facility Density',
-            height: 450, // Match the height of other charts
+            title: `${cityName} — Service Facility Density per 100,000 Population`, 
+            height: 450, 
             geo: {
                 scope: 'asia',
-                center: { lat: 23.6, lon: 120.96 }, // Center over Taiwan
-                lataxis: { range: [21.5, 26.5] }, 
-                lonaxis: { range: [118.5, 122.5] },
+                center: { lat: 23.6, lon: 120.96 }, 
+                lataxis: { range: [20, 26] }, 
+                lonaxis: { range: [117, 123] },
                 subunitcolor: 'rgba(0,0,0,0.3)',
                 showland: true,
                 landcolor: 'rgb(243, 243, 243)',
-                // For accurate Taiwan borders, a GeoJSON or specific Mapbox setup is usually needed
             },
             autosize: true, 
             margin: { t: 40, b: 20, l: 20, r: 20 }
         };
 
-        // --- Plotly Data Trace (Bubble Chart) ---
-        const mapTrace = {
-            type: 'scattergeo',
-            mode: 'markers',
-            lat: lats,
-            lon: lons,
-            marker: {
-                // Scale the size based on facility count (Total Facilities)
-                size: facility_counts.map(c => Math.sqrt(c + 1) * 7), 
-                // Color based on density (Density per Area)
-                color: densities, 
-                colorscale: 'YlOrRd', 
-                showscale: true,
-                colorbar: { title: "Density (Fac./Area)" }
-            },
-            text: city_names.map((name, i) => 
-                `${name}<br>Facilities: ${facility_counts[i]}<br>Density: ${densities[i].toFixed(4)}`
-            ),
-            hoverinfo: 'text'
-        };
-
-        Plotly.newPlot("accessibilityMapChart", [mapTrace], mapLayout, { responsive: true });
+        Plotly.newPlot("accessibilityMapChart", allTraces, mapLayout, { responsive: true });
         
         document.getElementById("error").textContent = "";
 
     } catch (err) {
         console.error("Error loading accessibility map:", err);
         document.getElementById("error").textContent =
-            "Failed to load map data. Check database connection and Lat/Lon data.";
+            "Failed to load map data. Check database connection and that all cities have valid Lat/Lon data.";
     }
 }
 
@@ -418,12 +460,16 @@ async function updateSummaryPanels(city_code, year) {
         const spending = yearSpending ? yearSpending.spending : 0;
 
         // 3. Update the display panels
-        document.getElementById('highRiskHighResourcesValue').textContent = year === '2023' || year === '2024' ? 'Kaoshiung City' : 'Lienchiang Country';
-        
-        // Using welfare spending as a placeholder for Resources Allocated
-        document.getElementById('highRiskLowResourcesValue').textContent = year === '2020' || year === '2022' ? 'Miaoli County' : 'Keelung City'; 
-        
-        // Placeholder for the "Generation Rate" metric. 
+        document.getElementById('highRiskHighResourcesValueWithSpecialMunicipality').textContent =
+            year === '2020' ? 'Taoyuan City' :
+            year === '2021' ? 'Taichung City' :
+            (year === '2022' || year === '2023' || year === '2024') ? 'Kaoshiung City' : 'N/A';
+        document.getElementById('highRiskLowResourcesValueWithSpecialMunicipality').textContent = year === '2020' || year === '2021' ? 'Kaoshiung City' : 'New Taipei City';  
+        document.getElementById('highRiskHighResourcesValueWithoutSpecialMunicipality').textContent =
+            (year === '2020' || year === '2021' || year === '2022') ? 'Lienchiang County' :
+            year === '2023' ? 'Taitung County' :
+            year === '2024' ? 'Penghu County' : 'N/A';
+        document.getElementById('highRiskLowResourcesValueWithoutSpecialMunicipality').textContent = year === '2020' || year === '2022' ? 'Miaoli County' : 'Keelung City';
         document.getElementById('highRiskGenerationValue').textContent = '65+';
 
     } catch (err) {
@@ -502,6 +548,7 @@ function loadAllChartsForCity(city_code, cityName) {
     // 4. Render the Gender SMR Trend and Welfare Spending Trend charts (Both dependent on city and year)
     renderGenderChart(city_code, cityName);
     renderWelfareChart(city_code, cityName);
+    renderAccessibilityMap(city_code, cityName);
     
     // 5. Update the map title
     updateMapTitle(cityName);

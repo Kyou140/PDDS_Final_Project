@@ -48,10 +48,8 @@ h1 {
     /* Center the panels group */
     justify-content: center;
     gap: 20px;
-    /* Limits width of summary panels for clean look */
-    max-width: 900px;
-    /* Center the panel group horizontally */
-    margin: 0 auto;
+    width: 1460px;
+    justify-content: space-between;
 }
 .data-panel {
     flex: 1;
@@ -71,7 +69,7 @@ h1 {
 .data-panel .value {
     font-size: 1.5em;
     font-weight: bold;
-    color: rgba(0, 0, 0, 0.85);
+    color: #000000;
     display: block;
 }
 
@@ -92,14 +90,12 @@ h1 {
 #top-row-split::after {
     content: '';
     position: absolute;
-    /* Center the 3px line in the 30px margin gap */
-    bottom: -16.5px; /* Adjusted: 30px gap / 2 = 15px. 15px + (3px line height / 2) = 16.5px */
+    /* FIX: Center the 3px line in the 30px margin gap. */
+    bottom: -13.5px; 
     left: 0;
-    /* FIX: Extend the line 10px to the right to cover the missing space */
-    right: -10px; 
+    right: -60px;
     height: 3px;
-    width: 104.35%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: black;
     z-index: 10;
 }
 
