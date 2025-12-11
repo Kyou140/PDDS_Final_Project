@@ -55,25 +55,7 @@ function renderResourceChart() {
 
     const traces = [];
 
-    // Trace 1: Non-Special Municipalities (Gray/Duller color)
-    traces.push({
-        x: nonSpecialMunicipalities.map(getX), 
-        y: nonSpecialMunicipalities.map(getY),
-        mode: 'markers',
-        type: 'scatter',
-        name: 'Non-Special Municipality',
-        marker: {
-            size: 10,
-            color: 'rgba(150, 150, 150, 0.7)', // Gray
-            line: { width: 1, color: 'rgb(100, 100, 100)' }
-        },
-        text: nonSpecialMunicipalities.map(d => 
-            `${getName(d)}<br>Suicide Rate: ${getY(d).toFixed(2)}<br>Happiness: ${getX(d).toFixed(2)}`
-        ),
-        hoverinfo: 'text'
-    });
-
-    // Trace 2: Special Municipalities (Blue/Highlight color)
+    // Trace 1: Special Municipalities (Blue/Highlight color)
     traces.push({
         x: specialMunicipalities.map(getX),
         y: specialMunicipalities.map(getY),
@@ -86,6 +68,24 @@ function renderResourceChart() {
             line: { width: 1, color: 'rgb(30, 80, 150)' }
         },
         text: specialMunicipalities.map(d => 
+            `${getName(d)}<br>Suicide Rate: ${getY(d).toFixed(2)}<br>Happiness: ${getX(d).toFixed(2)}`
+        ),
+        hoverinfo: 'text'
+    });
+
+    // Trace 2: Non-Special Municipalities (Gray/Duller color)
+    traces.push({
+        x: nonSpecialMunicipalities.map(getX), 
+        y: nonSpecialMunicipalities.map(getY),
+        mode: 'markers',
+        type: 'scatter',
+        name: 'Non-Special Municipality',
+        marker: {
+            size: 10,
+            color: 'rgba(150, 150, 150, 0.7)', // Gray
+            line: { width: 1, color: 'rgb(100, 100, 100)' }
+        },
+        text: nonSpecialMunicipalities.map(d => 
             `${getName(d)}<br>Suicide Rate: ${getY(d).toFixed(2)}<br>Happiness: ${getX(d).toFixed(2)}`
         ),
         hoverinfo: 'text'
@@ -460,12 +460,16 @@ async function updateSummaryPanels(city_code, year) {
         const spending = yearSpending ? yearSpending.spending : 0;
 
         // 3. Update the display panels
-        document.getElementById('highRiskHighResourcesValue').textContent = year === '2023' || year === '2024' ? 'Kaoshiung City' : 'Lienchiang County';
-        
-        // Using welfare spending as a placeholder for Resources Allocated
-        document.getElementById('highRiskLowResourcesValue').textContent = year === '2020' || year === '2022' ? 'Miaoli County' : 'Keelung City'; 
-        
-        // Placeholder for the "Generation Rate" metric. 
+        document.getElementById('highRiskHighResourcesValueWithSpecialMunicipality').textContent =
+            year === '2020' ? 'Taoyuan City' :
+            year === '2021' ? 'Taichung City' :
+            (year === '2022' || year === '2023' || year === '2024') ? 'Kaoshiung City' : 'N/A';
+        document.getElementById('highRiskLowResourcesValueWithSpecialMunicipality').textContent = year === '2020' || year === '2021' ? 'Kaoshiung City' : 'New Taipei City';  
+        document.getElementById('highRiskHighResourcesValueWithoutSpecialMunicipality').textContent =
+            (year === '2020' || year === '2021' || year === '2022') ? 'Lienchiang County' :
+            year === '2023' ? 'Taitung County' :
+            year === '2024' ? 'Penghu County' : 'N/A';
+        document.getElementById('highRiskLowResourcesValueWithoutSpecialMunicipality').textContent = year === '2020' || year === '2022' ? 'Miaoli County' : 'Keelung City';
         document.getElementById('highRiskGenerationValue').textContent = '65+';
 
     } catch (err) {

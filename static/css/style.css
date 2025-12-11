@@ -48,10 +48,8 @@ h1 {
     /* Center the panels group */
     justify-content: center;
     gap: 20px;
-    /* Limits width of summary panels for clean look */
-    max-width: 900px;
-    /* Center the panel group horizontally */
-    margin: 0 auto;
+    width: 1460px;
+    justify-content: space-between;
 }
 .data-panel {
     flex: 1;
