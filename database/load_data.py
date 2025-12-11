@@ -14,7 +14,7 @@ remote_df = pd.read_csv("database/data_csv/06_Remote_Counseling_Facility_Units.c
 welfare_df = pd.read_csv("database/data_csv/07_Per_Capita_Social_Welfare_Spending.csv")
 
 # Select the dataset
-city_df = city_df[['city_code', 'city_name', 'population', 'area', 'region', 'special_municipality']]
+city_df = city_df[['city_code', 'city_name', 'population', 'area', 'region', 'latitude', 'longitude', 'special_municipality']]
 happiness_df = happiness_df[['city_code', 'year', 'special_municipality', 'happiness_ranking', 'happiness_score']]
 suicide_city_df = suicide_city_df[['city_code', 'gender', 'year', 'suicide_rate']]
 nation_suicide_df = nation_suicide_df[['year', 'age_group', 'suicide_death_count', 'crude_suicide_rate']]

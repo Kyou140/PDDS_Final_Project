@@ -283,8 +283,8 @@ async function renderWelfareChart(city_code, cityName) {
     }
 }
 
-// Renders the Service Accessibility Map with Bubble Chart
-async function renderAccessibilityMap() {
+// Renders the Service Accessibility Map with fixed-size dots, highlighting the selected city with a star.
+async function renderAccessibilityMap(city_code, cityName) {
     try {
         const response = await fetch(`/map/accessibility`); 
         if (!response.ok) {
@@ -294,61 +294,85 @@ async function renderAccessibilityMap() {
         const mapData = await response.json();
         const data = mapData.data;
 
-        // NOTE: If your database query fails or lacks Lat/Lon, this map will not render correctly.
-        // Assuming your data now includes 'latitude' and 'longitude' columns:
-        const lats = data.map(d => d.latitude || 23.6); // Fallback to Taiwan center if missing
-        const lons = data.map(d => d.longitude || 120.96); // Fallback to Taiwan center if missing
-        const facility_counts = data.map(d => d.total_facilities);
-        const densities = data.map(d => d.density_per_area);
-        const city_names = data.map(d => d.city_name);
+        // --- Data Access & Filtering ---
+        const DEFAULT_LAT = 23.6;
+        const DEFAULT_LON = 120.96;
+        
+        // Map all data properties for both traces
+        const latsAll = data.map(d => d.latitude || DEFAULT_LAT); 
+        const lonsAll = data.map(d => d.longitude || DEFAULT_LON); 
+        const densityPopAll = data.map(d => d.combined_facilities_per_100k_pop); 
+        const totalFacilitiesAll = data.map(d => d.total_facilities); 
+        const cityCodesAll = data.map(d => d.city_code);
+        const cityNamesAll = data.map(d => d.city_name);
+        
+        const allTraces = [];
+        
+        // --- 1. Trace for ALL Cities (Dots or Stars) ---
+        // We will create one trace and use Plotly's 'symbol' and 'size' arrays
+        // to assign different markers/sizes based on the city code.
+        
+        const symbolArray = cityCodesAll.map(code => (code === city_code) ? 'star' : 'circle');
+        const sizeArray = cityCodesAll.map(code => (code === city_code) ? 15 : 10);
+        
+        const mapTrace = {
+            name: 'City Accessibility',
+            type: 'scattergeo',
+            mode: 'markers',
+            lat: latsAll, 
+            lon: lonsAll, 
+            marker: {
+                // Apply the symbol and size arrays
+                size: sizeArray, 
+                symbol: symbolArray, 
+                
+                // Color is based on Density for ALL points
+                color: densityPopAll, 
+                colorscale: 'YlOrRd', 
+                
+                // Add a black line for selected city's star marker
+                line: {
+                    width: cityCodesAll.map(code => (code === city_code) ? 1.5 : 0.5),
+                    color: cityCodesAll.map(code => (code === city_code) ? '#000000' : 'rgba(0,0,0,0.5)')
+                },
+                
+                showscale: true,
+                colorbar: { title: "Density (Fac./100k Pop)" } 
+            },
+            text: cityNamesAll.map((name, i) => 
+                `${name}<br>Total Facilities: ${totalFacilitiesAll[i]}<br>Density/100k Pop: ${densityPopAll[i].toFixed(4)}`
+            ),
+            hoverinfo: 'text'
+        };
+        
+        allTraces.push(mapTrace);
 
-        // --- Plotly Layout ---
+
+        // --- Plotly Layout (Remains the same) ---
         const mapLayout = {
-            title: 'Taiwan — Service Facility Density',
-            height: 450, // Match the height of other charts
+            title: `${cityName} — Service Facility Density per 100,000 Population`, 
+            height: 450, 
             geo: {
                 scope: 'asia',
-                center: { lat: 23.6, lon: 120.96 }, // Center over Taiwan
-                lataxis: { range: [21.5, 26.5] }, 
-                lonaxis: { range: [118.5, 122.5] },
+                center: { lat: 23.6, lon: 120.96 }, 
+                lataxis: { range: [20, 26] }, 
+                lonaxis: { range: [117, 123] },
                 subunitcolor: 'rgba(0,0,0,0.3)',
                 showland: true,
                 landcolor: 'rgb(243, 243, 243)',
-                // For accurate Taiwan borders, a GeoJSON or specific Mapbox setup is usually needed
             },
             autosize: true, 
             margin: { t: 40, b: 20, l: 20, r: 20 }
         };
 
-        // --- Plotly Data Trace (Bubble Chart) ---
-        const mapTrace = {
-            type: 'scattergeo',
-            mode: 'markers',
-            lat: lats,
-            lon: lons,
-            marker: {
-                // Scale the size based on facility count (Total Facilities)
-                size: facility_counts.map(c => Math.sqrt(c + 1) * 7), 
-                // Color based on density (Density per Area)
-                color: densities, 
-                colorscale: 'YlOrRd', 
-                showscale: true,
-                colorbar: { title: "Density (Fac./Area)" }
-            },
-            text: city_names.map((name, i) => 
-                `${name}<br>Facilities: ${facility_counts[i]}<br>Density: ${densities[i].toFixed(4)}`
-            ),
-            hoverinfo: 'text'
-        };
-
-        Plotly.newPlot("accessibilityMapChart", [mapTrace], mapLayout, { responsive: true });
+        Plotly.newPlot("accessibilityMapChart", allTraces, mapLayout, { responsive: true });
         
         document.getElementById("error").textContent = "";
 
     } catch (err) {
         console.error("Error loading accessibility map:", err);
         document.getElementById("error").textContent =
-            "Failed to load map data. Check database connection and Lat/Lon data.";
+            "Failed to load map data. Check database connection and that all cities have valid Lat/Lon data.";
     }
 }
 
@@ -505,6 +529,7 @@ function loadAllChartsForCity(city_code, cityName) {
     // 4. Render the Gender SMR Trend and Welfare Spending Trend charts (Both dependent on city and year)
     renderGenderChart(city_code, cityName);
     renderWelfareChart(city_code, cityName);
+    renderAccessibilityMap(city_code, cityName);
     
     // 5. Update the map title
     updateMapTitle(cityName);

@@ -5,14 +5,16 @@ CREATE TABLE CityInfo (
     population INT,
     area DECIMAL(10,2),
     region VARCHAR(100),
-    special_municipality BOOLEAN
+    latitude DECIMAL(10,6),
+    longitude DECIMAL(10,6),
+    special_municipality VARCHAR(100)
 );
 
 -- 02. Happiness Index
 CREATE TABLE HappinessIndex (
     city_code VARCHAR(10),
     year INT,
-    special_municipality BOOLEAN,
+    special_municipality VARCHAR(100),
     happiness_ranking INT,
     happiness_score DECIMAL(10,2),
 
