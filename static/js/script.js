@@ -498,8 +498,11 @@ async function updateSummaryPanels(city_code, year) {
         document.getElementById('highRiskHighResourcesValueWithoutSpecialMunicipality').textContent =
             (year === '2020' || year === '2021' || year === '2022') ? 'Lienchiang County' :
             year === '2023' ? 'Taitung County' :
-            year === '2024' ? 'Penghu County' : 'N/A';
-        document.getElementById('highRiskLowResourcesValueWithoutSpecialMunicipality').textContent = year === '2020' || year === '2022' ? 'Miaoli County' : 'Keelung City';
+            year === '2024' ? 'Nantou County' : 'N/A';
+        document.getElementById('highRiskLowResourcesValueWithoutSpecialMunicipality').textContent =
+            (year === '2020' || year === '2023' || year === '2024') ? 'Keelung City' :
+            year === '2022' ? 'Miaoli County' :
+            year === '2021' ? 'Hsinchu County' : 'N/A';
         document.getElementById('highRiskGenerationValue').textContent = '65+';
 
     } catch (err) {

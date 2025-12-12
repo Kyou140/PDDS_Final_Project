@@ -10,12 +10,38 @@
 h1 {
     text-align: center;
     color: #333;
-    margin-bottom: 25px;
+    margin-bottom: -10px;
+    /* BACKGROUND TRICK: Sky Blue extending to full width */
+    background-color: #CCF2FF; 
+    box-shadow: 0 0 0 100vw #CCF2FF inset;
+    
+    padding: 20px;
+    border-radius: 8px;
+    
+    /* Push the box to the edge of #main-container while keeping content centered */
+    margin-left: -50px; 
+    margin-right: -50px; 
+    padding-left: 20px; 
+    padding-right: 20px;
 }
 
-/* 2. Full-Width Top Controls Section */
+/* 2. Full-Width Top Controls Section (Year Selector + Summary Panels) */
 #top-full-width {
-    margin-bottom: 30px;
+    /* Retained margin-bottom, but removed -10px from your last snippet */
+    margin-bottom: -10px; 
+    
+    /* BACKGROUND TRICK: Sky Blue extending to full width */
+    background-color: #CCF2FF; 
+    box-shadow: 0 0 0 100vw #CCF2FF inset;
+    
+    padding: 20px;
+    border-radius: 8px;
+    
+    /* Push the box to the edge of #main-container while keeping content centered */
+    margin-left: -50px; 
+    margin-right: -50px; 
+    padding-left: 20px; 
+    padding-right: 20px;
 }
 
 /* Center the Year Selector Buttons group */
@@ -48,7 +74,9 @@ h1 {
     /* Center the panels group */
     justify-content: center;
     gap: 20px;
-    width: 1460px;
+    width: 100%; /* Keep this flexible */
+    max-width: 1360px; /* Optional: adjust based on final layout */
+    margin: 0 auto;
     justify-content: space-between;
 }
 .data-panel {
@@ -81,23 +109,34 @@ h1 {
     gap: 10px;
     width: 100%;
     /* Space between the top row and the middle row */
-    margin-bottom: 30px;
-    /* NEW: Add relative positioning to anchor the pseudo-element */
+    margin-bottom: 10px;
     position: relative; 
+    
+    /* BACKGROUND TRICK: Row 1 Sky Blue extending to full width */
+    background-color: #CCF2FF;
+    box-shadow: 0 0 0 100vw #CCF2FF inset;
+    
+    padding: 20px;
+    border-radius: 8px;
+
+    /* Push the box to the edge of #main-container while keeping content centered */
+    margin-left: -50px; 
+    margin-right: -50px;
+    padding-left: 20px; 
+    padding-right: 80px;
 }
 
 /* NEW: Pseudo-element to create the centered separation line */
-#top-row-split::after {
+/* #top-row-split::after {
     content: '';
     position: absolute;
-    /* FIX: Center the 3px line in the 30px margin gap. */
     bottom: -13.5px; 
     left: 0;
     right: -60px;
     height: 3px;
     background-color: black;
     z-index: 10;
-}
+} */
 
 #resource-chart-panel, #age-trend-chart-panel {
     /* Use calc to achieve a mathematically precise 50% width */
@@ -105,6 +144,7 @@ h1 {
     flex-grow: 0;
     flex-shrink: 0; 
     padding: 15px; 
+    /* Inner panels should be white or light gray against the colored block */
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
@@ -135,7 +175,20 @@ h1 {
     gap: 10px;
     width: 100%;
     /* Space between the middle row and the bottom row */
-    margin-bottom: 30px;
+    margin-bottom: -10px;
+    
+    /* BACKGROUND TRICK: Row 2 Gray extending to full width */
+    background-color: #ffd0d7; 
+    box-shadow: 0 0 0 100vw #ffd0d7 inset;
+    
+    padding: 20px;
+    border-radius: 8px;
+
+    /* Push the box to the edge of #main-container while keeping content centered */
+    margin-left: -50px; 
+    margin-right: -50px;
+    padding-left: 20px; 
+    padding-right: 80px;
 }
 
 #controls-panel, #gender-chart-panel {
@@ -144,6 +197,7 @@ h1 {
     flex-grow: 0;
     flex-shrink: 0; 
     padding: 15px; 
+    /* Inner panels should be white against the gray block */
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); 
@@ -171,10 +225,22 @@ h1 {
 /* --- BOTTOM ROW 50/50 LAYOUT (Map + Welfare Chart) --- */
 #bottom-row-split {
     display: flex;
-    /* Define the gap */
     gap: 10px;
     width: 100%;
     margin-bottom: 30px;
+    
+    /* BACKGROUND TRICK: Row 3 Sky Blue extending to full width */
+    background-color: #ffd0d7; 
+    box-shadow: 0 0 0 100vw #ffd0d7 inset;
+    
+    padding: 20px;
+    border-radius: 8px;
+
+    /* Push the box to the edge of #main-container while keeping content centered */
+    margin-left: -50px; 
+    margin-right: -50px;
+    padding-left: 20px; 
+    padding-right: 80px;
 }
 
 #accessibility-map-panel, #welfare-chart-panel {
@@ -183,6 +249,7 @@ h1 {
     flex-grow: 0;
     flex-shrink: 0; 
     padding: 15px; 
+    /* Inner panels should be white against the blue block */
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
@@ -213,5 +280,6 @@ h2 {
 /* Base style that was already outside the <style> block */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
+    /* Set overall page background to white/neutral */
+    background-color: #ffffff;
 }
