@@ -43,6 +43,9 @@ h1 {
 }
 
 /* Styling for the new Interactive Panels */
+#charts-wrapper {
+    background-color:blanchedalmond;
+}
 #summary-panels {
     display: flex;
     /* Center the panels group */
