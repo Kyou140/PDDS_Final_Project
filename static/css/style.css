@@ -129,8 +129,6 @@ h1 {
     padding-right: 80px;
 }
 
-<<<<<<< HEAD
-=======
 /* NEW: Pseudo-element to create the centered separation line */
 /* #top-row-split::after {
     content: '';
@@ -142,7 +140,6 @@ h1 {
     background-color: black;
     z-index: 10;
 } */
->>>>>>> 894ffca501d107b0c24856bf94c38331ba2436f4
 
 #resource-chart-panel, #age-trend-chart-panel {
     /* Use calc to achieve a mathematically precise 50% width */
