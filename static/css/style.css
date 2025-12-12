@@ -178,8 +178,8 @@ h1 {
     margin-bottom: -10px;
     
     /* BACKGROUND TRICK: Row 2 Gray extending to full width */
-    background-color: #ffd0d7; 
-    box-shadow: 0 0 0 100vw #ffd0d7 inset;
+    background-color: #d0ffe8; 
+    box-shadow: 0 0 0 100vw #d0ffe8 inset;
     
     padding: 20px;
     border-radius: 8px;
@@ -230,8 +230,8 @@ h1 {
     margin-bottom: 30px;
     
     /* BACKGROUND TRICK: Row 3 Sky Blue extending to full width */
-    background-color: #ffd0d7; 
-    box-shadow: 0 0 0 100vw #ffd0d7 inset;
+    background-color: #d0ffe8; 
+    box-shadow: 0 0 0 100vw #d0ffe8 inset;
     
     padding: 20px;
     border-radius: 8px;
