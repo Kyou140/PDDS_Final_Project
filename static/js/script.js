@@ -194,7 +194,7 @@ function renderAgeTrendForYear(year) {
         x: ageLabels,
         y: suicideRates,
         type: "bar",
-        marker: { color: "#4a90e2" }
+        marker: { color: "#8e4ae2ff" }
     };
 
     const layout = {
