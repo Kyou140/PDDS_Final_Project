@@ -2,6 +2,7 @@
 let selectedYear = '2024';
 let ageTrendByYear = {}; 
 let allResourceData = []; // Global storage for the nationwide resource priority data for all years
+let nationwideWelfareAvg = {}; // NEW: Store Nationwide Average Spending by Year (e.g., {2020: 1200, 2021: 1250, ...})
 
 // --- Core Chart Logic Functions ---
 
@@ -228,14 +229,14 @@ async function renderGenderChart(city_code, cityName) {
                 x: male.map(d => d.year),
                 y: male.map(d => d.suicide_rate),
                 mode: "lines+markers",
-                name: "Male",
+                name: "Male SMR",
                 line: {color: 'skyblue'}
             },
             {
                 x: female.map(d => d.year),
                 y: female.map(d => d.suicide_rate),
                 mode: "lines+markers",
-                name: "Female",
+                name: "Female SMR",
                 line: {color: 'pink'}
             }
         ], {
@@ -262,18 +263,20 @@ async function renderWelfareChart(city_code, cityName) {
         const cityData = await response.json();
         const data = cityData.data;
         
-        // Calculate the average spending
-        const totalSpending = data.reduce((sum, d) => sum + d.spending, 0);
-        const averageSpending = data.length > 0 ? totalSpending / data.length : 0;
+        // MODIFIED: Calculate the nationwide average spending array for the city's years
+        const nationwideAvgY = data.map(d => {
+            const avg = nationwideWelfareAvg[d.year.toString()];
+            // Provide a fallback if data for a year is missing
+            return avg !== undefined ? avg : NaN; 
+        });
         
-        // Trace for the average spending line
+        // Trace for the nationwide average spending line
         const avgTrace = {
             x: data.map(d => d.year),
-            // Use the constant average value for all years
-            y: data.map(() => averageSpending), 
-            mode: "lines",
-            name: "Average Spending",
-            line: { color: 'red', dash: 'dashdot' }
+            y: nationwideAvgY, // Use the new nationwide array
+            mode: "lines+markers",
+            name: "Nationwide Average Spending", // Updated name
+            line: { color: 'red' }
         };
 
         Plotly.newPlot("welfareChart", [ 
@@ -281,7 +284,7 @@ async function renderWelfareChart(city_code, cityName) {
                 x: data.map(d => d.year),
                 y: data.map(d => d.spending), 
                 mode: "lines+markers",
-                name: "Welfare Expenditure",
+                name: "Welfare Expenditure Spending",
                 line: {color: 'gold'}
             },
             avgTrace // Add the average line trace
@@ -295,6 +298,29 @@ async function renderWelfareChart(city_code, cityName) {
         console.error("Error loading welfare chart:", err);
         document.getElementById("error").textContent =
             "Failed to load welfare chart data.";
+    }
+}
+
+// --- New Function: Initialize Nationwide Welfare Average Data ---
+async function initNationwideWelfareAvg() {
+    try {
+        // ASSUMPTION: This endpoint now exists on the backend
+        const response = await fetch("/nationwide_welfare_avg"); 
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+        const json = await response.json();
+        const data = json.data || [];
+        
+        // Convert the array into a year-indexed object for easy lookup
+        nationwideWelfareAvg = data.reduce((acc, row) => {
+            // Assuming the backend returns 'year' and 'avg_nationwide_spending'
+            acc[row.year.toString()] = row.avg_nationwide_spending; 
+            return acc;
+        }, {});
+        
+    } catch (err) {
+        console.error("Error initializing Nationwide Welfare Average:", err);
     }
 }
 
@@ -343,7 +369,11 @@ async function renderAccessibilityMap(city_code, cityName) {
                 
                 // Color is based on Density for ALL points
                 color: densityPopAll, 
-                colorscale: 'YlOrRd', 
+                colorscale: [
+                    [0.0, '#FF0000'], // Red for 0
+                    [0.5, '#FFFF00'], // Yellow for midpoint
+                    [1.0, '#008000']  // Green for 100%
+                ], 
                 
                 // Add a black line for selected city's star marker
                 line: {
@@ -555,7 +585,7 @@ function loadAllChartsForCity(city_code, cityName) {
 }
 
 
-async function loadCityList() {
+async function loadCityList() { // MUST be async to use await
     try {
         const response = await fetch("/cities");
         if (!response.ok) {
@@ -582,6 +612,9 @@ async function loadCityList() {
 
         // *** Init the Resource Chart data on load (uses selectedYear) ***
         initResourceChart(); 
+        
+        // *** NEW: Init the Nationwide Welfare Average data ***
+        await initNationwideWelfareAvg(); // <--- ADDED 'await' HERE to guarantee data loading
 
         // *** Render the accessibility map once when the app loads ***
         renderAccessibilityMap();

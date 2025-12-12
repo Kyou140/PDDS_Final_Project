@@ -5,6 +5,7 @@ from graph.python.city_details import fetch_city_details
 from graph.python.gender_SMR_trend import fetch_gender_smr_data
 from graph.python.service_accessibility import fetch_service_accessibility_data
 from graph.python.welfare_spending import fetch_welfare_data
+from graph.python.nationwide_welfare_avg import fetch_nationwide_welfare_avg
 from graph.python.resource_priority_map import fetch_resource_priority_data
 from graph.python.age_trend_analysis import fetch_age_trend
 
@@ -95,6 +96,19 @@ def get_welfare_data(city_code):
         # Handles errors from the database layer
         print(f"Error fetching welfare data from DB service for {city_code}: {e}")
         return jsonify({"error": "Failed to fetch welfare chart data."}), 500
+    
+# 8. Route for Nationwide Welfare Spending Average Data (New Route)
+@app.route("/nationwide_welfare_avg")
+def get_nationwide_welfare_avg():
+    """Fetches the nationwide average welfare spending by year."""
+    try:
+        data_list = fetch_nationwide_welfare_avg()
+        return jsonify({
+            "data": data_list
+        })
+    except Exception as e:
+        print(f"Error fetching nationwide welfare average: {e}")
+        return jsonify({"error": "Failed to fetch nationwide welfare average."}), 500
     
 # 6. Route for Resource Priority Map Data 
 @app.route("/chart/resource")   
