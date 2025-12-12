@@ -12,8 +12,8 @@ h1 {
     color: #333;
     margin-bottom: -10px;
     /* BACKGROUND TRICK: Sky Blue extending to full width */
-    background-color: #CCF2FF; 
-    box-shadow: 0 0 0 100vw #CCF2FF inset;
+    background-color: #fef9f3; 
+    box-shadow: 0 0 0 100vw #fef9f3 inset;
     
     padding: 20px;
     border-radius: 8px;
@@ -31,8 +31,8 @@ h1 {
     margin-bottom: -10px; 
     
     /* BACKGROUND TRICK: Sky Blue extending to full width */
-    background-color: #CCF2FF; 
-    box-shadow: 0 0 0 100vw #CCF2FF inset;
+    background-color: #fef9f3; 
+    box-shadow: 0 0 0 100vw #fef9f3 inset;
     
     padding: 20px;
     border-radius: 8px;
@@ -116,8 +116,8 @@ h1 {
     position: relative; 
     
     /* BACKGROUND TRICK: Row 1 Sky Blue extending to full width */
-    background-color: #CCF2FF;
-    box-shadow: 0 0 0 100vw #CCF2FF inset;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 100vw #ffffff inset;
     
     padding: 20px;
     border-radius: 8px;
@@ -181,8 +181,8 @@ h1 {
     margin-bottom: -10px;
     
     /* BACKGROUND TRICK: Row 2 Gray extending to full width */
-    background-color: #d0ffe8; 
-    box-shadow: 0 0 0 100vw #d0ffe8 inset;
+    background-color: #fd4; 
+    box-shadow: 0 0 0 100vw #fd4 inset;
     
     padding: 20px;
     border-radius: 8px;
@@ -233,8 +233,8 @@ h1 {
     margin-bottom: 30px;
     
     /* BACKGROUND TRICK: Row 3 Sky Blue extending to full width */
-    background-color: #d0ffe8; 
-    box-shadow: 0 0 0 100vw #d0ffe8 inset;
+    background-color: #fd4; 
+    box-shadow: 0 0 0 100vw #fd4 inset;
     
     padding: 20px;
     border-radius: 8px;
@@ -284,5 +284,5 @@ h2 {
 body {
     font-family: Arial, sans-serif;
     /* Set overall page background to white/neutral */
-    background-color: #ffffff;
+    background-color: #fef9f3;
 }
