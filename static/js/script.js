@@ -218,25 +218,33 @@ async function renderGenderChart(city_code, cityName) {
         
         // Filter for Male & Female
         const filtered = cityData.data.filter(
-            d => d.gender === "Male" || d.gender === "Female"
+            d => d.gender === "Male" || d.gender === "Female" || d.gender === "Total"
         );
 
         const male = filtered.filter(d => d.gender === "Male");
         const female = filtered.filter(d => d.gender === "Female");
+        const total = filtered.filter(d => d.gender === "Total");
 
         Plotly.newPlot("genderChart", [ 
+            {
+                x: total.map(d => d.year),
+                y: total.map(d => d.suicide_rate),
+                mode: "lines+markers",
+                name: `${cityName} Total SMR`,
+                line: {color: 'lightgrey'}
+            },
             {
                 x: male.map(d => d.year),
                 y: male.map(d => d.suicide_rate),
                 mode: "lines+markers",
-                name: "Male SMR",
+                name: `${cityName} Male SMR`,
                 line: {color: 'skyblue'}
             },
             {
                 x: female.map(d => d.year),
                 y: female.map(d => d.suicide_rate),
                 mode: "lines+markers",
-                name: "Female SMR",
+                name: `${cityName} Female SMR`,
                 line: {color: 'pink'}
             }
         ], {
@@ -279,15 +287,15 @@ async function renderWelfareChart(city_code, cityName) {
             line: { color: 'red' }
         };
 
-        Plotly.newPlot("welfareChart", [ 
+        Plotly.newPlot("welfareChart", [
+            avgTrace, // Add the average line trace
             {
                 x: data.map(d => d.year),
                 y: data.map(d => d.spending), 
                 mode: "lines+markers",
-                name: "Welfare Expenditure Spending",
+                name: `${cityName} Spending`,
                 line: {color: 'gold'}
             },
-            avgTrace // Add the average line trace
         ], {
             title: `${cityName} — Per Capita Social Welfare Expenditure`,
             xaxis: { title: "Year" },

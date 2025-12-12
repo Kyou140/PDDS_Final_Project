@@ -75,7 +75,7 @@ h1 {
     justify-content: center;
     gap: 20px;
     width: 100%; /* Keep this flexible */
-    max-width: 1360px; /* Optional: adjust based on final layout */
+    max-width: 1500px; /* Optional: adjust based on final layout */
     margin: 0 auto;
     justify-content: space-between;
 }
