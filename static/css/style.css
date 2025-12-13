@@ -9,8 +9,9 @@
 /* Center the main title */
 h1 {
     text-align: center;
-    color: #333;
-    margin-bottom: -10px;
+    font-size: xxx-large;
+    color: #000000;
+    margin-bottom: 20px;
     /* BACKGROUND TRICK: Sky Blue extending to full width */
     background-color: #fef9f3; 
     box-shadow: 0 0 0 100vw #fef9f3 inset;
@@ -27,7 +28,7 @@ h1 {
 
 #top-description {
     /* Retained margin-bottom, but removed -10px from your last snippet */
-    margin-bottom: 5px; 
+    margin-bottom: -10px; 
     
     /* BACKGROUND TRICK: Sky Blue extending to full width */
     background-color: #ffac46; 
@@ -47,12 +48,13 @@ h1 {
 #top-full-width {
     /* Retained margin-bottom, but removed -10px from your last snippet */
     margin-bottom: -10px; 
+    margin-top: -20px;
     
     /* BACKGROUND TRICK: Sky Blue extending to full width */
-    background-color: #fef9f3; 
-    box-shadow: 0 0 0 100vw #fef9f3 inset;
+    background-color: #ffac46; 
+    box-shadow: 0 0 0 100vw #ffac46 inset;
     
-    padding: 20px;
+    padding: 10px;
     border-radius: 8px;
     
     /* Push the box to the edge of #main-container while keeping content centered */
@@ -73,7 +75,7 @@ h1 {
 }
 #year-selector button {
     padding: 10px 50px;
-    border: 1px solid #007bff;
+    border: 1px solid #5bbdcb;
     background-color: #ffffff;
     cursor: pointer;
     transition: background-color 0.2s;
@@ -81,9 +83,9 @@ h1 {
     font-weight: bold;
 }
 #year-selector button.active {
-    background-color: #007bff;
+    background-color: #5bbdcb;
     color: white;
-    border-color: #007bff;
+    border-color: #5bbdcb;
 }
 
 /* Styling for the new Interactive Panels */
@@ -103,16 +105,16 @@ h1 {
 .data-panel-a {
     flex: 1;
     text-align: center;
-    border: 1px solid #ddd;
+    border: 1px solid #fef9f3;
     padding: 15px;
-    background-color: #d6f8ff;
+    background-color: #5bbdcb;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 }
 .data-panel-b {
     flex: 1;
     text-align: center;
-    border: 1px solid #ddd;
+    border: 1px solid #fef9f3;
     padding: 15px;
     background-color: #d8d8d8;
     border-radius: 8px;
@@ -121,9 +123,9 @@ h1 {
 .data-panel-c {
     flex: 1;
     text-align: center;
-    border: 1px solid #ddd;
+    border: 1px solid #fef9f3;
     padding: 15px;
-    background-color: #e0c7f5;
+    background-color: #F9E5AE;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 }
@@ -178,8 +180,10 @@ h1 {
     /* BACKGROUND TRICK: Row 1 Sky Blue extending to full width */
     background-color: #ffffff;
     box-shadow: 0 0 0 100vw #ffffff inset;
+    background-color: #ffac46; 
+    box-shadow: 0 0 0 100vw #ffac46 inset;
     
-    padding: 20px;
+    padding: 30px;
     border-radius: 8px;
 
     /* Push the box to the edge of #main-container while keeping content centered */
@@ -220,11 +224,12 @@ h1 {
 
 #middle-description {
     /* Retained margin-bottom, but removed -10px from your last snippet */
-    margin-bottom: 10px; 
+    margin-bottom: -30px;
+    margin-top: 50px;
     
     /* BACKGROUND TRICK: Sky Blue extending to full width */
-    background-color: #ff4646; 
-    box-shadow: 0 0 0 100vw #ff4646 inset;
+    background-color: #5bbdcb; 
+    box-shadow: 0 0 0 100vw #5bbdcb inset;
 
     padding: 20px;
     border-radius: 8px;
@@ -247,10 +252,10 @@ h1 {
     margin-bottom: -10px;
     
     /* BACKGROUND TRICK: Row 2 Gray extending to full width */
-    background-color: #fcfcb4; 
-    box-shadow: 0 0 0 100vw #fcfcb4 inset;
+    background-color: #5bbdcb; 
+    box-shadow: 0 0 0 100vw #5bbdcb inset;
     
-    padding: 20px;
+    padding: 30px;
     border-radius: 8px;
 
     /* Push the box to the edge of #main-container while keeping content centered */
@@ -308,10 +313,24 @@ h1 {
     width: 100%;
 }
 h2 {
-    margin-top: 0;
-    color: #555;
-    border-bottom: 1px solid #eee;
+    margin-top: 5px;
+    color: #000000;
     padding-bottom: 10px;
+    border-bottom: 3px solid #c9c9c9;
+    font-size: x-large;
+}
+h4 {
+    margin-top: -45px;
+    color: #000000;
+    border-bottom: 5px dashed #fef9f3;
+    padding-bottom: 20px;
+    font-size: large;
+}
+h5 {
+    margin-top: 5px;
+    color: #000000;
+    padding-bottom: -30px;
+    font-size: xx-large;
 }
 #citySelect {
     font-size: 1.2em; 

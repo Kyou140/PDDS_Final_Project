@@ -65,7 +65,7 @@ function renderResourceChart() {
         name: 'Special Municipality',
         marker: {
             size: 10,
-            color: 'rgba(66, 133, 244, 0.7)', // Blue
+            color: '#5bbdcb', // Blue
             line: { width: 1, color: 'rgb(30, 80, 150)' }
         },
         text: specialMunicipalities.map(d => 
@@ -194,7 +194,7 @@ function renderAgeTrendForYear(year) {
         x: ageLabels,
         y: suicideRates,
         type: "bar",
-        marker: { color: "#8e4ae2ff" }
+        marker: { color: "#F9E54A" }
     };
 
     const layout = {
