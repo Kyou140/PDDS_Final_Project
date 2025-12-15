@@ -238,14 +238,14 @@ async function renderGenderChart(city_code, cityName) {
                 y: male.map(d => d.suicide_rate),
                 mode: "lines+markers",
                 name: `${cityName} Male SMR`,
-                line: {color: 'skyblue'}
+                line: {color: '#5bbdcb'}
             },
             {
                 x: female.map(d => d.year),
                 y: female.map(d => d.suicide_rate),
                 mode: "lines+markers",
                 name: `${cityName} Female SMR`,
-                line: {color: 'pink'}
+                line: {color: '#FF0000'}
             }
         ], {
             title: `${cityName} — Gender Standardized Mortality Ratio`,
@@ -284,7 +284,7 @@ async function renderWelfareChart(city_code, cityName) {
             y: nationwideAvgY, // Use the new nationwide array
             mode: "lines+markers",
             name: "Nationwide Average Spending", // Updated name
-            line: { color: 'red' }
+            line: { color: 'lightgrey' }
         };
 
         Plotly.newPlot("welfareChart", [
@@ -294,7 +294,7 @@ async function renderWelfareChart(city_code, cityName) {
                 y: data.map(d => d.spending), 
                 mode: "lines+markers",
                 name: `${cityName} Spending`,
-                line: {color: 'gold'}
+                line: {color: '#F9E54A'}
             },
         ], {
             title: `${cityName} — Per Capita Social Welfare Expenditure`,
