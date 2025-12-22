@@ -65,8 +65,8 @@ function renderResourceChart() {
         name: 'Special Municipality',
         marker: {
             size: 10,
-            color: '#5bbdcb', // Blue
-            line: { width: 1, color: 'rgb(30, 80, 150)' }
+            color: '#8c4b00', // Blue
+            line: { width: 1, color: '#331b00ff' }
         },
         text: specialMunicipalities.map(d => 
             `${getName(d)}<br>Suicide Rate: ${getY(d).toFixed(2)}<br>Happiness: ${getX(d).toFixed(2)}`
@@ -83,8 +83,8 @@ function renderResourceChart() {
         name: 'Non-Special Municipality',
         marker: {
             size: 10,
-            color: 'rgba(150, 150, 150, 0.7)', // Gray
-            line: { width: 1, color: 'rgb(100, 100, 100)' }
+            color: '#d27914', 
+            line: { width: 1, color: '#fa8e13ff' }
         },
         text: nonSpecialMunicipalities.map(d => 
             `${getName(d)}<br>Suicide Rate: ${getY(d).toFixed(2)}<br>Happiness: ${getX(d).toFixed(2)}`
@@ -194,7 +194,7 @@ function renderAgeTrendForYear(year) {
         x: ageLabels,
         y: suicideRates,
         type: "bar",
-        marker: { color: "#F9E54A" }
+        marker: { color: "#ffd59a" }
     };
 
     const layout = {
@@ -238,14 +238,14 @@ async function renderGenderChart(city_code, cityName) {
                 y: male.map(d => d.suicide_rate),
                 mode: "lines+markers",
                 name: `${cityName} Male SMR`,
-                line: {color: '#5bbdcb'}
+                line: {color: '#005b96'}
             },
             {
                 x: female.map(d => d.year),
                 y: female.map(d => d.suicide_rate),
                 mode: "lines+markers",
                 name: `${cityName} Female SMR`,
-                line: {color: '#FF0000'}
+                line: {color: '#e04040ff'}
             }
         ], {
             title: `${cityName} — Gender Standardized Mortality Ratio`,
@@ -294,7 +294,7 @@ async function renderWelfareChart(city_code, cityName) {
                 y: data.map(d => d.spending), 
                 mode: "lines+markers",
                 name: `${cityName} Spending`,
-                line: {color: '#F9E54A'}
+                line: {color: '#d27914'}
             },
         ], {
             title: `${cityName} — Per Capita Social Welfare Expenditure`,
