@@ -10,17 +10,16 @@ from graph.python.resource_priority_map import fetch_resource_priority_data
 from graph.python.age_trend_analysis import fetch_age_trend
 
 
-# --- Configuration ---
+# Configuration
 app = Flask(__name__)
 
-# --- Routes ---
-
+# Routes
 @app.route("/")
 def index():
     """Renders the main HTML page."""
     return render_template("index.html")
 
-# 1. Route for City Dropdown (/cities)
+# Route for City Dropdown
 @app.route("/cities")
 def get_cities():
     """Fetches the list of cities by calling the db_service function."""
@@ -34,7 +33,7 @@ def get_cities():
         print(f"Error fetching cities from DB service: {e}")
         return jsonify({"error": "Failed to fetch city list."}), 500
 
-# 2. Route for City Details Panel Data
+# Route for City Details Panel Data
 @app.route("/city/<city_code>/details")
 def get_city_details(city_code):
     """Fetches detailed info (population, area, facility counts) for a specific city."""
@@ -47,7 +46,7 @@ def get_city_details(city_code):
         print(f"Error fetching city details for {city_code}: {e}")
         return jsonify({"error": "Failed to fetch city details."}), 500
 
-# 3. Route for Gender SMR Chart Data
+# Route for Gender SMR Chart Data
 @app.route("/city/<city_code>/gender")
 def get_gender_data(city_code):
     """Fetches the Gender SMR Trend data by calling the db_service function."""
@@ -64,7 +63,7 @@ def get_gender_data(city_code):
         print(f"Error fetching gender data from DB service for {city_code}: {e}")
         return jsonify({"error": "Failed to fetch gender chart data."}), 500
 
-# 4. Route for Service Accessibility Map Data
+# Route for Service Accessibility Map Data
 @app.route("/map/accessibility")
 def get_service_accessibility_data():
     """Fetches the Service Accessibility Map by calling the db_service function."""
@@ -80,7 +79,7 @@ def get_service_accessibility_data():
         print(f"Error fetching service accessibility data: {e}")
         return jsonify({"error": "Failed to fetch map data."}), 500
     
-# 5. Route for Welfare Spending Chart Data
+# Route for Welfare Spending Chart Data
 @app.route("/city/<city_code>/welfare")
 def get_welfare_data(city_code):
     """Fetches the Welfare Spending data by calling the db_service function."""
@@ -97,7 +96,7 @@ def get_welfare_data(city_code):
         print(f"Error fetching welfare data from DB service for {city_code}: {e}")
         return jsonify({"error": "Failed to fetch welfare chart data."}), 500
     
-# 8. Route for Nationwide Welfare Spending Average Data (New Route)
+# Route for Nationwide Welfare Spending Average Data
 @app.route("/nationwide_welfare_avg")
 def get_nationwide_welfare_avg():
     """Fetches the nationwide average welfare spending by year."""
@@ -110,7 +109,7 @@ def get_nationwide_welfare_avg():
         print(f"Error fetching nationwide welfare average: {e}")
         return jsonify({"error": "Failed to fetch nationwide welfare average."}), 500
     
-# 6. Route for Resource Priority Map Data 
+# Route for Resource Priority Map Data 
 @app.route("/chart/resource")   
 def get_happiness_suicide_data():
     """Fetches all data for the Happiness vs. Suicide Scatter Plot"""
@@ -126,12 +125,12 @@ def get_happiness_suicide_data():
         print(f"Error fetching happiness/suicide data: {e}")
         return jsonify({"error" : "Failed to fetch happiness/suicide data."}),500
     
-# 7. Route for Age Trend Analysis Chart (Nationwide)
+# Route for Age Trend Analysis Chart
 @app.route("/age_trend")
 def get_age_trend_data():
     """Fetches Taiwan suicide rate trends by age group (nationwide)."""
     try:
-        data_list = fetch_age_trend()  # call your loader
+        data_list = fetch_age_trend()
         return jsonify({
             "data": data_list
         })
@@ -139,6 +138,6 @@ def get_age_trend_data():
         print(f"Error fetching age trend data: {e}")
         return jsonify({"error": "Failed to fetch age trend chart data."}), 500
 
-# --- Main Execution ---
+# Main Execution
 if __name__ == "__main__":
     app.run(debug=True)

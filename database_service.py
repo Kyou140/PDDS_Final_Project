@@ -1,11 +1,11 @@
 import sqlite3
 import os
 
-# --- Configuration ---
+# Configuration
 DATABASE_PATH = 'database/database.db' 
 SQL_DIR = './graph/sql'
 
-# --- Helper Functions ---
+# Helper Functions
 def get_db_connection():
     """Returns a new SQLite database connection configured for row access by name."""
     conn = sqlite3.connect(DATABASE_PATH)

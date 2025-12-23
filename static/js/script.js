@@ -1,18 +1,16 @@
 // --- Global State ---
 let selectedYear = '2024';
 let ageTrendByYear = {}; 
-let allResourceData = []; // Global storage for the nationwide resource priority data for all years
-let nationwideWelfareAvg = {}; // NEW: Store Nationwide Average Spending by Year (e.g., {2020: 1200, 2021: 1250, ...})
+let allResourceData = [];
+let nationwideWelfareAvg = {};
 
 // --- Core Chart Logic Functions ---
 
 // Renders the Resource Priority Chart (Scatter Plot)
-// This function is now completely independent of the city dropdown.
 function renderResourceChart() {
-    // 1. Filter the global data ONLY by the selectedYear.
+    // Filter the global data ONLY by the selectedYear.
     const dataForSelectedYear = allResourceData.filter(d => d.year.toString() === selectedYear);
     
-    // *** DEBUG BLOCK: Check data structure and count ***
     console.log("--- RESOURCE CHART DEBUG (Render) ---");
     console.log(`Selected Year: ${selectedYear}`);
     console.log(`Total cities data loaded for this year: ${dataForSelectedYear.length}`);
@@ -21,7 +19,6 @@ function renderResourceChart() {
         console.log("First row keys (should be lowercase):", keys);
     }
     console.log("----------------------------");
-    // *** END DEBUG BLOCK ***
     
     // Check if data for the selected year is available
     if (dataForSelectedYear.length === 0) {
@@ -39,7 +36,7 @@ function renderResourceChart() {
         return;
     }
 
-    // Helper functions for clean data access (relying on Python to return lowercase keys)
+    // Helper functions for clean data access
     const getX = (d) => d.happiness_score;
     const getY = (d) => d.suicide_rate;
     const getName = (d) => d.city_name;
@@ -50,13 +47,13 @@ function renderResourceChart() {
         }
     };
 
-    // 1. Separate data into Special Municipality (Group 1) and Non-Special Municipality (Group 2)
+    // Separate data into Special Municipality and Non-Special Municipality
     const specialMunicipalities = dataForSelectedYear.filter(isSpecial);
     const nonSpecialMunicipalities = dataForSelectedYear.filter(d => !isSpecial(d));
 
     const traces = [];
 
-    // Trace 1: Special Municipalities (Blue/Highlight color)
+    // Trace 1: Special Municipalities
     traces.push({
         x: specialMunicipalities.map(getX),
         y: specialMunicipalities.map(getY),
@@ -65,7 +62,7 @@ function renderResourceChart() {
         name: 'Special Municipality',
         marker: {
             size: 10,
-            color: '#8c4b00', // Blue
+            color: '#8c4b00',
             line: { width: 1, color: '#331b00ff' }
         },
         text: specialMunicipalities.map(d => 
@@ -74,7 +71,7 @@ function renderResourceChart() {
         hoverinfo: 'text'
     });
 
-    // Trace 2: Non-Special Municipalities (Gray/Duller color)
+    // Trace 2: Non-Special Municipalities
     traces.push({
         x: nonSpecialMunicipalities.map(getX), 
         y: nonSpecialMunicipalities.map(getY),
@@ -92,9 +89,7 @@ function renderResourceChart() {
         hoverinfo: 'text'
     });
     
-    // NOTE: The highlight trace logic is completely REMOVED.
-    
-    // 4. Define the Layout
+    // Define the Layout
     const layout = {
         xaxis: { 
             title: "Resource (Happiness Score)",
@@ -113,13 +108,13 @@ function renderResourceChart() {
         ]
     };
 
-    // 5. Render the chart
+    // Render the chart
     Plotly.newPlot("resourceChart", traces, layout);
     document.getElementById("error").textContent = "";
 
 }
 
-// New function to handle initial fetch and subsequent year redraw
+// Handle initial fetch and subsequent year redraw
 async function initResourceChart() {
     try {
         // Fetch nationwide data for the scatter plot (for ALL years)
@@ -128,7 +123,7 @@ async function initResourceChart() {
             throw new Error(`HTTP ${response.status}`);
         }
         const json = await response.json();
-        allResourceData = json.data || []; // Store data globally
+        allResourceData = json.data || [];
         
         // Render the chart for the current selectedYear
         renderResourceChart();
@@ -150,7 +145,7 @@ async function initResourceChart() {
 }
 
 
-// --- Age Trend Analysis (Nationwide) ---
+// Age Trend Analysis (Nationwide)
 async function initAgeTrendChart() {
     try {
         const response = await fetch("/age_trend");
@@ -164,7 +159,7 @@ async function initAgeTrendChart() {
         // Group data by year
         ageTrendByYear = {};
         data.forEach(row => {
-            const y = row.year;  // number
+            const y = row.year;
             if (!ageTrendByYear[y]) {
                 ageTrendByYear[y] = [];
             }
@@ -206,7 +201,7 @@ function renderAgeTrendForYear(year) {
     Plotly.react("ageTrendChart", [trace], layout);
 }
 
-// Renders the Gender SMR Trend chart in the dedicated 'genderChart' div
+// Gender SMR Trend chart
 async function renderGenderChart(city_code, cityName) {
     try {
         const response = await fetch(`/city/${city_code}/gender`);
@@ -260,7 +255,7 @@ async function renderGenderChart(city_code, cityName) {
     }
 }
 
-// Renders the Welfare Spending Trend chart in the dedicated 'welfareChart' div
+// Welfare Spending Trend chart
 async function renderWelfareChart(city_code, cityName) {
     try {
         const response = await fetch(`/city/${city_code}/welfare`);
@@ -271,7 +266,7 @@ async function renderWelfareChart(city_code, cityName) {
         const cityData = await response.json();
         const data = cityData.data;
         
-        // MODIFIED: Calculate the nationwide average spending array for the city's years
+        // Calculate the nationwide average spending
         const nationwideAvgY = data.map(d => {
             const avg = nationwideWelfareAvg[d.year.toString()];
             // Provide a fallback if data for a year is missing
@@ -281,14 +276,14 @@ async function renderWelfareChart(city_code, cityName) {
         // Trace for the nationwide average spending line
         const avgTrace = {
             x: data.map(d => d.year),
-            y: nationwideAvgY, // Use the new nationwide array
+            y: nationwideAvgY,
             mode: "lines+markers",
-            name: "Nationwide Average Spending", // Updated name
+            name: "Nationwide Average Spending",
             line: { color: 'lightgrey' }
         };
 
         Plotly.newPlot("welfareChart", [
-            avgTrace, // Add the average line trace
+            avgTrace,
             {
                 x: data.map(d => d.year),
                 y: data.map(d => d.spending), 
@@ -309,10 +304,9 @@ async function renderWelfareChart(city_code, cityName) {
     }
 }
 
-// --- New Function: Initialize Nationwide Welfare Average Data ---
+// Nationwide Welfare Average Data
 async function initNationwideWelfareAvg() {
     try {
-        // ASSUMPTION: This endpoint now exists on the backend
         const response = await fetch("/nationwide_welfare_avg"); 
         if (!response.ok) {
             throw new Error(`HTTP ${response.status}`);
@@ -332,7 +326,7 @@ async function initNationwideWelfareAvg() {
     }
 }
 
-// Renders the Service Accessibility Map with fixed-size dots, highlighting the selected city with a star.
+// Service Accessibility Map
 async function renderAccessibilityMap(city_code, cityName) {
     try {
         const response = await fetch(`/map/accessibility`); 
@@ -343,7 +337,7 @@ async function renderAccessibilityMap(city_code, cityName) {
         const mapData = await response.json();
         const data = mapData.data;
 
-        // --- Data Access & Filtering ---
+        // Data Access & Filtering
         const DEFAULT_LAT = 23.6;
         const DEFAULT_LON = 120.96;
         
@@ -357,10 +351,7 @@ async function renderAccessibilityMap(city_code, cityName) {
         
         const allTraces = [];
         
-        // --- 1. Trace for ALL Cities (Dots or Stars) ---
-        // We will create one trace and use Plotly's 'symbol' and 'size' arrays
-        // to assign different markers/sizes based on the city code.
-        
+        // Trace for ALL Cities
         const symbolArray = cityCodesAll.map(code => (code === city_code) ? 'star' : 'circle');
         const sizeArray = cityCodesAll.map(code => (code === city_code) ? 15 : 10);
         
@@ -401,7 +392,7 @@ async function renderAccessibilityMap(city_code, cityName) {
         allTraces.push(mapTrace);
 
 
-        // --- Plotly Layout (Remains the same) ---
+        // Plotly Layout
         const mapLayout = {
             title: `${cityName} — Service Facility Density per 100,000 Population`, 
             height: 450, 
@@ -429,8 +420,7 @@ async function renderAccessibilityMap(city_code, cityName) {
     }
 }
 
-// --- Control Panel Details Logic ---
-
+// Control Panel Details Logic
 async function updateCityDetailsPanel(city_code) {
     try {
         const response = await fetch(`/city/${city_code}/details`);
@@ -468,8 +458,7 @@ async function updateCityDetailsPanel(city_code) {
 }
 
 
-// --- Summary Panel Logic ---
-
+// Summary Panel Logic
 async function updateSummaryPanels(city_code, year) {
     // This remains the same as previously defined for summary panels
     try {
@@ -522,8 +511,7 @@ async function updateSummaryPanels(city_code, year) {
 }
 
 
-// --- Year Selection Handler ---
-
+// Year Selection Handler
 function handleYearSelection(event) {
     if (event.target.tagName !== 'BUTTON') return;
 
@@ -545,7 +533,6 @@ function handleYearSelection(event) {
 
     if (city_code && city_code !== "Loading...") {
         updateSummaryPanels(city_code, selectedYear); 
-        // FIX: Re-fetch and re-render the Resource Chart when the year changes
         initResourceChart(); 
     }
 
@@ -554,8 +541,7 @@ function handleYearSelection(event) {
     renderAgeTrendForYear(yearNum);
 }
 
-// --- Dynamic Map Title Update ---
-
+// Dynamic Map Title Update
 function updateMapTitle(cityName) {
     const newTitle = `Taiwan — Service Facility Density (Focus on ${cityName})`;
     
@@ -568,8 +554,7 @@ function updateMapTitle(cityName) {
     }
 }
 
-// --- Main Control Flow ---
-
+// Main Control Flow
 function loadAllChartsForCity(city_code, cityName) {
     document.getElementById("error").textContent = "";
 
@@ -582,21 +567,18 @@ function loadAllChartsForCity(city_code, cityName) {
     
     // 2. Update the Control Panel details for the selected city
     updateCityDetailsPanel(city_code); 
-    
-    // 3. Render the Resource Priority Chart (DO NOTHING - chart is independent of dropdown)
-    // Removed the updateResourceChartHighlight() call entirely.
 
-    // 4. Render the Gender SMR Trend and Welfare Spending Trend charts (Both dependent on city and year)
+    // 3. Render the Accessibility Map, Gender SMR Trend and Welfare Spending Trend charts
     renderGenderChart(city_code, cityName);
     renderWelfareChart(city_code, cityName);
     renderAccessibilityMap(city_code, cityName);
     
-    // 5. Update the map title
+    // 4. Update the map title
     updateMapTitle(cityName);
 }
 
 
-async function loadCityList() { // MUST be async to use await
+async function loadCityList() {
     try {
         const response = await fetch("/cities");
         if (!response.ok) {
@@ -618,16 +600,16 @@ async function loadCityList() { // MUST be async to use await
         // Set up event listener for the year buttons
         document.getElementById('year-selector').addEventListener('click', handleYearSelection);
 
-        // Init nationwide age trend chart (uses selectedYear)
+        // Init nationwide age trend chart
         initAgeTrendChart();
 
-        // *** Init the Resource Chart data on load (uses selectedYear) ***
+        // Init the Resource Chart data on load
         initResourceChart(); 
         
-        // *** NEW: Init the Nationwide Welfare Average data ***
-        await initNationwideWelfareAvg(); // <--- ADDED 'await' HERE to guarantee data loading
+        // Init the Nationwide Welfare Average data
+        await initNationwideWelfareAvg();
 
-        // *** Render the accessibility map once when the app loads ***
+        // Render the accessibility map once when the app loads
         renderAccessibilityMap();
 
         // Auto-load charts for the first city after list is loaded
