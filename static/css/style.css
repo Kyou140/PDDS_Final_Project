@@ -34,7 +34,7 @@ h1 {
     padding-right: 20px;
 }
 
-/* 2. Full-Width Top Controls Section (Year Selector + Summary Panels) */
+/* 2. Full-Width Top Controls Section */
 #top-full-width {
     border-radius: 8px;
     background-color: #ffac46; 
@@ -70,7 +70,7 @@ h1 {
     border-color: #8c4b00;
 }
 
-/* Styling for the new Interactive Panels */
+/* Styling for the Interactive Panels */
 #charts-wrapper {
     background-color:blanchedalmond;
 }
@@ -215,7 +215,7 @@ h1 {
 }
 
 
-/* --- MID ROW 50/50 LAYOUT (Controls + Gender Chart) --- */
+/* --- MID ROW 50/50 LAYOUT (Controls + Accessibility Map + Gender Chart + Welfare Chart) --- */
 #mid-row-split, #bottom-row-split {
     display: flex;
     gap: 10px;
