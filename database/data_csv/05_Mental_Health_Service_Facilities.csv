@@ -1,0 +1,23 @@
+city_id,city_name,city_code,service_facility
+1,Taipei City,A,137
+2,New Taipei City,F,83
+3,Taoyuan City,H,47
+4,Taichung City,B,62
+5,Tainan City,D,52
+6,Kaohsiung City,E,85
+7,Keelung City,C,7
+8,Hsinchu City,O,18
+9,Hsinchu County,J,17
+10,Miaoli County,K,7
+11,Changhua County,N,16
+12,Nantou County,M,8
+13,Yunlin County,P,9
+14,Chiayi City,I,9
+15,Chiayi County,Q,4
+16,Pingtung County,T,13
+17,Yilan County,G,14
+18,Hualien County,U,19
+19,Taitung County,V,7
+20,Penghu County,X,2
+21,Kinmen County,W,1
+22,Lienchiang County,Z,0

@@ -1,0 +1,333 @@
+/* 1. Center the entire dashboard content */
+#main-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Center the main title */
+h1 {
+    text-align: center;
+    font-size: xxx-large;
+    color: #000000;
+    margin-bottom: 20px;
+    background-color: #fef9f3; 
+    box-shadow: 0 0 0 100vw #fef9f3 inset;
+    padding: 20px;
+    border-radius: 8px;
+    margin-left: -50px; 
+    margin-right: -50px; 
+    padding-left: 20px; 
+    padding-right: 20px;
+
+}
+
+#top-description {
+    margin-bottom: 30px; 
+    background-color: #ffac46; 
+    box-shadow: 0 0 0 100vw #ffac46 inset;
+    padding: 20px;
+    border-radius: 8px;
+    margin-left: -50px; 
+    margin-right: -50px; 
+    padding-left: 20px; 
+    padding-right: 20px;
+}
+
+/* 2. Full-Width Top Controls Section */
+#top-full-width {
+    border-radius: 8px;
+    background-color: #ffac46; 
+    box-shadow: 0 0 0 100vw #ffac46 inset;
+    margin-left: -50px; 
+    margin-right: -50px; 
+    padding-left: 50px; 
+    padding-right: 50px;
+    margin-top: -50px;
+    padding-bottom: 20px;
+    margin-bottom: -10px;
+}
+
+/* Center the Year Selector Buttons group */
+#year-selector {
+    display: flex; 
+    gap: 10px;
+    width: fit-content;
+    margin: 0 auto 20px auto;
+}
+#year-selector button {
+    padding: 10px 50px;
+    border: 1px solid #8c4b00;
+    background-color: #fef9f3;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    border-radius: 20px;
+    font-weight: bold;
+}
+#year-selector button.active {
+    background-color: #8c4b00;
+    color: #fef9f3;
+    border-color: #8c4b00;
+}
+
+/* Styling for the Interactive Panels */
+#charts-wrapper {
+    background-color:blanchedalmond;
+}
+#summary-panels {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    width: 104.2%; 
+    max-width: 2500px;
+    justify-content: space-between;
+    margin-left:-28px;
+}
+.data-panel-a {
+    flex-direction: column;
+    border: 1px solid #8c4b00;
+    padding: 15px;
+    padding-left:30px;
+    padding-right:30px;
+    background-color: #d27914;
+    border-radius: 8px;
+
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+.inner-panel {
+    display:flex;
+    flex-direction: row;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+.data-panel-a1 {
+    flex-direction: row;
+    text-align: left;
+    margin-top: 0px;
+    padding-right: 30px;
+    border-right: 0.2px solid #ffe8cd;
+}
+.data-panel-a2 {
+    flex-direction: row;
+    text-align: left;
+    border-radius: 8px;
+    padding-left: 10px;
+    margin-left: 10px;
+}
+
+.data-panel-c {
+    flex: 1;
+    text-align: center;
+    border: 1px solid #8c4b00;
+    padding: 15px;
+    background-color: #ffd59a;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+.data-panel-a h3 {
+    margin: 0px -10px 5px 0;
+    padding-bottom: -20px;
+    color: #000000;
+    text-transform: uppercase;
+    text-align: center;
+    font-size: x-large;
+}
+.data-panel-c h3 {
+    margin: 0 0 5px 0;
+    font-size: larger;
+    color: #000000;
+    font-size:x-large;
+    text-transform: uppercase;
+}
+.data-panel-a .value {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #ffe8cd;
+    display: block;
+}
+
+.data-panel-c .value {
+    font-size: 2em;
+    font-weight: bold;
+    color: #613401;
+    display: block;
+    padding-top: 15px;
+}
+
+
+/* --- TOP ROW 50/50 LAYOUT (Resource Chart + Age Trend Chart) --- */
+#top-row-split {
+    display: flex; 
+    gap: 10px;
+    width: 100%;
+    position: relative; 
+    background-color: #ffac46; 
+    box-shadow: 0 0 0 100vw #ffac46 inset;
+    padding: 30px;
+    border-radius: 8px;
+    margin-left: -50px; 
+    margin-right: -50px;
+    padding-left: 20px; 
+    padding-right: 80px;
+}
+
+#resource-chart-panel, #age-trend-chart-panel {
+    flex-basis: calc(50% - 5px); 
+    flex-grow: 0;
+    flex-shrink: 0; 
+    padding: 15px; 
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+
+#resource-chart-panel {
+    padding: 15px; 
+    background-color: #d27914;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    flex-grow: 1; 
+}
+
+#age-trend-chart-panel{
+    padding: 15px; 
+    background-color: #ffd59a;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    flex-grow: 1; 
+}
+
+#middle-description {
+    margin-bottom: 40px;
+    margin-top: 30px;
+    background-color: #d27914; 
+    box-shadow: 0 0 0 100vw #d27914 inset;
+    padding: 20px;
+    padding-top: 20px;
+    border-radius: 8px;
+    margin-left: -50px; 
+    margin-right: -50px; 
+    padding-left: 20px; 
+    padding-right: 20px;
+    padding-bottom: 20px;
+    margin-bottom: -10px;
+}
+
+
+/* --- MID ROW 50/50 LAYOUT (Controls + Accessibility Map + Gender Chart + Welfare Chart) --- */
+#mid-row-split, #bottom-row-split {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 40px;
+    background-color: #d27914; 
+    box-shadow: 0 0 0 100vw #d27914 inset;
+    padding: 30px;
+    border-radius: 8px;
+    margin-left: -50px; 
+    margin-right: -50px;
+    padding-left: 20px; 
+    padding-right: 80px;
+    padding-bottom: 30px;
+    margin-bottom: -10px;
+}
+
+#controls-panel, #gender-chart-panel {
+    flex-basis: calc(50% - 5px); 
+    flex-grow: 0;
+    flex-shrink: 0; 
+    padding: 15px; 
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); 
+    align-self: stretch; 
+    margin-top: -20px;
+}
+
+#controls-panel {
+    padding: 15px; 
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    flex-grow: 1;
+    min-height: 500px; 
+}
+
+#gender-chart-panel {
+    padding: 15px; 
+    background-color: #d0a379;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    flex-grow: 1;
+}
+
+#accessibility-map-panel, #welfare-chart-panel {
+    flex-basis: calc(50% - 5px); 
+    flex-grow: 0;
+    flex-shrink: 0; 
+    padding: 15px; 
+    background-color: #d0a379;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    margin-top: -20px;
+}
+
+
+.graph-container {
+    width: 100%;
+}
+h2 {
+    margin-top: 5px;
+    color: #000000;
+    padding-bottom: 0px;
+    font-size: x-large;
+}
+h4 {
+    margin-top: -45px;
+    color: #000000;
+    border-bottom: 3px dashed #fef9f3;
+    padding-bottom: 15px;
+    font-size: x-large;
+    font-weight:normal;
+}
+h5 {
+    margin-top: 5px;
+    color: #000000;
+    padding-bottom: -30px;
+    font-size: xx-large;
+}
+h6 {
+    margin-top: 10px;
+    color:#ffe8cd;
+    margin-bottom: 5px;
+    font-size:medium;
+    text-align:left;
+}
+h7 {
+    font-size: larger;
+    color: #000000;
+    font-size:xx-large;
+    text-transform: uppercase;
+    font-weight: bold;
+    text-align: center;
+    margin-left: 400px;
+}
+
+#citySelect {
+    font-size: 1.2em; 
+    padding: 8px;
+    width: 100%; 
+    border-radius: 5px;
+}
+.controls label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/* Base style that was already outside the <style> block */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #fef9f3;
+}

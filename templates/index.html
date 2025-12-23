@@ -1,9 +1,143 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>PDDS Final Project</title>
+    <meta charset="UTF-8">
+    <title>Mental Health Resources Allocation Dashboard</title>
+
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
+
 <body>
-    <h1>Welcome to PDDS Project</h1>
+    <div id="main-container">
+        <h1>MENTAL HEALTH ANALYSIS DASHBOARD</h1>
+
+        <div id="top-description">
+            <h5>Macro View: Identify Imbalanced Regions</h2>
+            <h4>Which cities or counties face the highest demographic risk?</h4>
+        </div>
+
+        <div id="top-full-width">
+            
+            <div id="year-selector">
+                <button data-year="2020">2020</button>
+                <button data-year="2021">2021</button>
+                <button data-year="2022">2022</button>
+                <button data-year="2023">2023</button>
+                <button data-year="2024" class="active">2024</button>
+            </div>
+
+            <div id="summary-panels">
+                <div class="data-panel-a">
+                    <h3>High Risk High Resources</h3>
+                        <div class="inner-panel">
+                         <div class="data-panel-a1">
+                         <h6>Special Municipality</h6>
+                         <span id="highRiskHighResourcesValueWithSpecialMunicipality" class="value">--</span>
+                         </div>
+                         <div class="data-panel-a2">
+                         <h6>Non-Special Municipality</h6>
+                         <span id="highRiskHighResourcesValueWithoutSpecialMunicipality" class="value">--</span>
+                         </div>
+                         </div>
+                </div>
+                <div class="data-panel-a">
+                    <h3>High Risk High Resources</h3>
+                        <div class="inner-panel">
+                         <div class="data-panel-a1">
+                         <h6>Special Municipality</h6>
+                         <span id="highRiskLowResourcesValueWithSpecialMunicipality" class="value">--</span>
+                         </div>
+                         <div class="data-panel-a2">
+                         <h6>Non-Special Municipality</h6>
+                         <span id="highRiskLowResourcesValueWithoutSpecialMunicipality" class="value">--</span>
+                         </div>
+                         </div>
+                </div>
+                <div class="data-panel-c">
+                    <h3>High Risk Generation</h3>
+                    <span id="highRiskGenerationValue" class="value">--</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="top-row-split">
+            <div id="resource-chart-panel">
+                <h2>Nationwide Resource Priority Chart</h2>
+                <div id="resourceChart" style="width: 100%; height: 450px;"></div>
+            </div>
+            <div id="age-trend-chart-panel">
+                <h2>Nationwide Age Trend Analysis</h2>
+                <div id="ageTrendChart" style="width: 100%; height: 450px;"></div>
+            </div>
+        </div>
+   <BR>
+    <BR>
+    <h7>Deep Dive into Resource Gaps ▼</h7>
+   <BR>
+        <div id="middle-description">    
+            <h5>Action Intelligence: Diagnose Required Interventions</h2>
+            <h4>What specific resource deficits drive this risk?</h4>
+        </div>
+
+        <div id="mid-row-split">
+            
+            <div id="controls-panel">
+                
+                <div class="controls" style="margin-bottom: 20px;">
+                    <label for="citySelect">Select City/County:</label>
+                    <select id="citySelect" onchange="loadAllChartsForCity(this.value, this.options[this.selectedIndex].textContent)">
+                        <option value="" disabled selected>Loading...</option>
+                    </select>
+                    <div id="error" style="color: red; margin-top: 10px;"></div>
+                </div>
+
+                <hr style="border-color:#eee; margin: 15px 0;"> 
+                
+               <div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 15px;">
+                        <label style="flex-shrink: 0; margin-right: 10px;">SERVICE CENTER:</label>
+                        <span id="centerNumberDisplay" style="flex-grow: 1; padding: 5px; box-sizing: border-box; text-align: right;">--</span>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 15px;">
+                        <label style="flex-shrink: 0; margin-right: 10px;">ONLINE SERVICE CENTER:</label>
+                        <span id="onlineCenterNumberDisplay" style="flex-grow: 1; padding: 5px; box-sizing: border-box; text-align: right;">--</span>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 15px;">
+                        <label style="flex-shrink: 0; margin-right: 10px;">POPULATION:</label>
+                        <span id="populationDisplay" style="flex-grow: 1; padding: 5px; box-sizing: border-box; text-align: right;">--</span>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 15px;">
+                        <label style="flex-shrink: 0; margin-right: 10px;">AREA:</label>
+                        <span id="areaDisplay" style="flex-grow: 1; padding: 5px; box-sizing: border-box; text-align: right;">--</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="accessibility-map-panel">
+                <h2>Service Accessibility Map</h2>
+                <div id="accessibilityMapChart" style="width: 100%; height: 450px;"></div> 
+            </div>
+
+        </div>
+        <div id="bottom-row-split">
+            
+            <div id="gender-chart-panel">
+                <h2>Gender Standardized Mortality Ratio Trend</h2>
+                <div id="genderChart" style="width: 100%; height: 450px;"></div> 
+            </div>
+
+            <div id="welfare-chart-panel">
+                <h2>Welfare Spending Trend</h2>
+                <div id="welfareChart" style="width: 100%; height: 450px;"></div> 
+            </div>
+        </div>
+        </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>

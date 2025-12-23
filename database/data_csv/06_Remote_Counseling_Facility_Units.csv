@@ -1,0 +1,23 @@
+city_id,city_name,city_code,counseling_unit
+1,Taipei City,A,58
+2,New Taipei City,F,42
+3,Taoyuan City,H,11
+4,Taichung City,B,37
+5,Tainan City,D,31
+6,Kaohsiung City,E,31
+7,Keelung City,C,0
+8,Hsinchu City,O,3
+9,Hsinchu County,J,4
+10,Miaoli County,K,2
+11,Changhua County,N,9
+12,Nantou County,M,3
+13,Yunlin County,P,0
+14,Chiayi City,I,6
+15,Chiayi County,Q,0
+16,Pingtung County,T,0
+17,Yilan County,G,6
+18,Hualien County,U,7
+19,Taitung County,V,4
+20,Penghu County,X,0
+21,Kinmen County,W,0
+22,Lienchiang County,Z,0
